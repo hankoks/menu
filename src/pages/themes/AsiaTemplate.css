@@ -1,0 +1,881 @@
+/* ---------- Asia App Theme CSS ---------- */
+.asia-theme-wrapper {
+    /* Container styles mirroring the body in HTML */
+    background: var(--asia-bg);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    color: var(--asia-text);
+}
+
+.asia-theme-wrapper * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.asia-phone {
+    width: 100%;
+    max-width: 600px;
+    /* Optional, to prevent it from stretching too wide on desktop, can be 100% */
+    min-height: 100vh;
+    background: var(--asia-bg);
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .05);
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+/* Header */
+.asia-header {
+    padding: 24px 20px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.asia-logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--asia-dark);
+    letter-spacing: .02em;
+}
+
+.asia-logo span {
+    color: var(--asia-primary);
+}
+
+.asia-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--asia-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    cursor: pointer;
+    border: 2px solid var(--asia-bg);
+    box-shadow: 0 4px 10px rgba(46, 67, 114, .3);
+    transition: .3s;
+}
+
+.asia-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.asia-cart-btn {
+    position: relative;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: var(--asia-dark);
+    transition: .3s;
+    line-height: 1;
+    margin-top: 4px;
+}
+
+.asia-cart-n {
+    position: absolute;
+    top: -7px;
+    right: -9px;
+    background: var(--asia-primary);
+    color: #fff;
+    font-size: .62rem;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.asia-cart-n.bump {
+    animation: asia-bump .4s;
+}
+
+@keyframes asia-bump {
+    40% {
+        transform: scale(1.5);
+    }
+}
+
+/* Search */
+.asia-search {
+    margin: 12px 18px 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fffdf8;
+    border-radius: 14px;
+    padding: 11px 16px;
+    box-shadow: 0 4px 12px -6px rgba(30, 40, 70, .15);
+    border: 1.5px solid transparent;
+    transition: .3s;
+}
+
+.asia-search:focus-within {
+    border-color: var(--asia-dark);
+    box-shadow: 0 6px 16px -6px rgba(46, 67, 114, .35);
+}
+
+.asia-search input {
+    border: none;
+    outline: none;
+    background: none;
+    font-family: 'Outfit';
+    font-size: .85rem;
+    flex: 1;
+    color: var(--asia-text);
+}
+
+.asia-search input::placeholder {
+    color: #8b90a0;
+    font-weight: 300;
+}
+
+/* Categories Nav */
+.asia-cats {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 14px 18px 14px;
+    scrollbar-width: none;
+}
+
+.asia-cats::-webkit-scrollbar {
+    display: none;
+}
+
+.asia-cat {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 15px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: .3s;
+    background: #fffdf8;
+    border: none;
+    font-family: 'Outfit';
+    color: #8b90a0;
+    font-size: .7rem;
+    font-weight: 500;
+    box-shadow: 0 3px 8px -4px rgba(30, 40, 70, .12);
+}
+
+.asia-cat .ic {
+    font-size: 1.3rem;
+    transition: .3s;
+}
+
+.asia-cat.active {
+    background: var(--asia-dark);
+    color: #fff;
+    box-shadow: 0 10px 20px -8px rgba(46, 67, 114, .55);
+}
+
+.asia-cat.active .ic {
+    transform: scale(1.15);
+}
+
+.asia-cat:not(.active):hover {
+    background: #fff;
+    color: var(--asia-dark);
+}
+
+/* Sub filters */
+.asia-sub {
+    display: flex;
+    gap: 20px;
+    padding: 2px 20px 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.asia-sub::-webkit-scrollbar {
+    display: none;
+}
+
+.asia-sub button {
+    background: none;
+    border: none;
+    font-family: 'Outfit';
+    font-size: .84rem;
+    font-weight: 500;
+    color: #8b90a0;
+    cursor: pointer;
+    padding-bottom: 6px;
+    position: relative;
+    white-space: nowrap;
+    transition: .3s;
+}
+
+.asia-sub button.active {
+    color: var(--asia-dark);
+}
+
+.asia-sub button.active::after {
+    content: "";
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    bottom: 0;
+    height: 2.5px;
+    border-radius: 3px;
+    background: var(--asia-primary);
+}
+
+.asia-section-title {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.55rem;
+    text-align: center;
+    color: var(--asia-dark);
+    padding: 6px 0 14px;
+    margin: 0;
+}
+
+/* Grid */
+.asia-scroll {
+    flex: 1;
+    padding: 0 18px 90px;
+    height: auto;
+}
+
+.asia-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.asia-dish {
+    background: #fffdf8;
+    border-radius: 18px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 6px 18px -8px rgba(30, 40, 70, .18);
+    transition: transform .35s, box-shadow .35s;
+    animation: asia-pop .5s backwards cubic-bezier(.2, .8, .3, 1.2);
+}
+
+@keyframes asia-pop {
+    from {
+        opacity: 0;
+        transform: scale(.9) translateY(14px);
+    }
+}
+
+.asia-dish:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 32px -10px rgba(30, 40, 70, .3);
+}
+
+.asia-dish:active {
+    transform: scale(.97);
+}
+
+.asia-dish-img {
+    position: relative;
+    background: var(--asia-dark);
+    padding: 10px 10px 0;
+}
+
+.asia-dish-img img {
+    width: 100%;
+    height: 105px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+}
+
+.asia-status {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: rgba(255, 253, 248, .95);
+    color: var(--asia-dark);
+    font-size: .56rem;
+    font-weight: 600;
+    letter-spacing: .07em;
+    padding: 3px 9px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.asia-status::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #5dbb63;
+}
+
+.asia-status.new::before {
+    background: var(--asia-primary);
+}
+
+.asia-dish-price {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(255, 253, 248, .95);
+    color: var(--asia-text);
+    font-size: .68rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.asia-dish-body {
+    padding: 12px 13px 14px;
+    text-align: left;
+}
+
+.asia-dish-name {
+    font-weight: 600;
+    font-size: .9rem;
+    line-height: 1.25;
+}
+
+.asia-dish-desc {
+    font-size: .67rem;
+    color: #8b90a0;
+    margin-top: 5px;
+    line-height: 1.45;
+    font-weight: 300;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.asia-dish-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 9px;
+}
+
+.asia-likes {
+    font-size: .67rem;
+    color: #8b90a0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.asia-likes b {
+    color: var(--asia-primary);
+    font-weight: normal;
+    font-family: sans-serif;
+}
+
+.asia-arrow {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--asia-primary);
+    color: var(--asia-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .8rem;
+    transition: .3s;
+}
+
+.asia-dish:hover .asia-arrow {
+    background: var(--asia-primary);
+    color: #fff;
+    transform: translateX(3px);
+}
+
+.asia-empty {
+    text-align: center;
+    color: #8b90a0;
+    padding: 50px 0;
+    font-weight: 300;
+    grid-column: 1/-1;
+}
+
+/* Product Screen Overlay */
+.asia-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--asia-bg);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform .4s cubic-bezier(.25, .9, .25, 1);
+    z-index: 900;
+    overflow-y: auto;
+}
+
+.asia-screen.open {
+    transform: translateX(0);
+}
+
+.asia-p-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 52px 20px 8px;
+}
+
+.asia-back {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1.5px solid var(--asia-primary);
+    color: var(--asia-primary);
+    background: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.asia-back:hover {
+    background: var(--asia-primary);
+    color: #fff;
+    transform: translateX(-3px);
+}
+
+.asia-heart {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--asia-primary);
+    transition: .25s;
+    line-height: 1;
+    padding: 0;
+}
+
+.asia-heart.pop {
+    animation: asia-heartPop .4s;
+}
+
+@keyframes asia-heartPop {
+    40% {
+        transform: scale(1.5);
+    }
+}
+
+.asia-p-img {
+    padding: 0 26px;
+    animation: asia-imgIn .5s backwards .15s;
+}
+
+@keyframes asia-imgIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(.96);
+    }
+}
+
+.asia-p-img img {
+    width: 100%;
+    height: 270px;
+    object-fit: cover;
+    border-radius: 22px;
+    box-shadow: 0 18px 35px -14px rgba(30, 40, 70, .4);
+    display: block;
+}
+
+.asia-p-name {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.9rem;
+    text-align: center;
+    color: var(--asia-dark);
+    margin-top: 18px;
+    margin-bottom: 0;
+}
+
+.asia-p-stats {
+    margin: 14px 20px 0;
+    background: var(--asia-dark);
+    color: #fff;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 13px 18px;
+    font-size: .85rem;
+    font-weight: 500;
+    box-shadow: 0 10px 20px -10px rgba(46, 67, 114, .5);
+}
+
+.asia-p-stats .cal {
+    font-weight: 300;
+    opacity: .85;
+}
+
+.asia-p-stats .lk {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.asia-p-desc {
+    padding: 18px 26px 0;
+    font-size: .85rem;
+    line-height: 1.65;
+    font-weight: 300;
+    color: var(--asia-text);
+    animation: asia-imgIn .5s backwards .25s;
+    margin: 0;
+}
+
+.asia-p-ing {
+    padding: 12px 26px 0;
+    font-size: .7rem;
+    line-height: 1.75;
+    color: #8b90a0;
+    font-weight: 300;
+    margin: 0;
+}
+
+.asia-p-bottom {
+    margin-top: auto;
+    background: var(--asia-dark);
+    border-radius: 26px 26px 0 0;
+    padding: 22px 24px 28px;
+    box-shadow: 0 -12px 30px -14px rgba(30, 40, 70, .45);
+}
+
+.asia-p-price {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 2rem;
+    color: #fff;
+    text-align: right;
+    margin-bottom: 14px;
+    margin-top: 0;
+}
+
+.asia-p-price small {
+    font-size: .9rem;
+    font-weight: 300;
+    opacity: .7;
+    font-family: 'Outfit';
+    margin-left: 6px;
+}
+
+.asia-p-actions {
+    display: flex;
+    gap: 14px;
+}
+
+.asia-qty {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 0 0 132px;
+    border: 1.5px solid rgba(255, 255, 255, .6);
+    border-radius: 40px;
+    padding: 4px;
+}
+
+.asia-qty button {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, .14);
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: .25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.asia-qty button:hover {
+    background: rgba(255, 255, 255, .3);
+}
+
+.asia-qty button:active {
+    transform: scale(.9);
+}
+
+.asia-qty span {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    min-width: 20px;
+    text-align: center;
+}
+
+.asia-order-btn {
+    flex: 1;
+    height: 46px;
+    border: none;
+    border-radius: 40px;
+    background: var(--asia-bg);
+    color: var(--asia-dark);
+    font-family: 'Outfit';
+    font-weight: 700;
+    font-size: .85rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: .3s;
+    box-shadow: 0 8px 18px -8px rgba(0, 0, 0, .4);
+}
+
+.asia-order-btn:hover {
+    transform: translateY(-2px);
+}
+
+.asia-order-btn:active {
+    transform: scale(.97);
+}
+
+/* Floating Cart (Bottom Bar) */
+.asia-floating-cart {
+    position: fixed;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 600px;
+    background: var(--asia-primary);
+    color: #fff;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px 24px;
+    box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.15);
+    z-index: 800;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    transition: transform 0.3s;
+}
+
+.asia-floating-cart .asi-fc-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+}
+
+.asia-floating-cart .asi-fc-count {
+    background: rgba(255, 255, 255, 0.2);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+.asia-floating-cart .asi-fc-right {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* Cart Overlay */
+.asia-cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .4);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    opacity: 0;
+    pointer-events: none;
+    transition: .3s;
+    z-index: 1000;
+}
+
+.asia-cart-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.asia-cart-panel {
+    background: #fffdf8;
+    border-radius: 30px 30px 0 0;
+    padding: 30px 24px;
+    transform: translateY(100%);
+    transition: transform .4s cubic-bezier(.2, .8, .3, 1);
+    max-height: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.asia-cart-overlay.open .asia-cart-panel {
+    transform: translateY(0);
+}
+
+.asia-cart-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.asia-cart-head h2 {
+    margin: 0;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.6rem;
+    color: var(--asia-dark);
+}
+
+.asia-cart-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: #f0e9d6;
+    color: var(--asia-primary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.asia-cart-empty {
+    text-align: center;
+    color: #8b90a0;
+    padding: 30px 0;
+    font-size: .9rem;
+}
+
+.asia-cart-item {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 16px;
+    align-items: center;
+}
+
+.asia-cart-item-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.asia-cart-item-info {
+    flex: 1;
+    text-align: left;
+}
+
+.asia-cart-item-name {
+    font-weight: 600;
+    font-size: .9rem;
+    color: var(--asia-text);
+    margin-bottom: 4px;
+}
+
+.asia-cart-item-price {
+    font-weight: 700;
+    color: var(--asia-dark);
+    font-size: .8rem;
+}
+
+.asia-cart-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #efe8d9;
+    border-radius: 20px;
+    padding: 4px;
+}
+
+.asia-cart-controls button {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #fffdf8;
+    border: none;
+    color: var(--asia-dark);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .05);
+}
+
+.asia-cart-controls span {
+    font-weight: 600;
+    font-size: .85rem;
+    min-width: 16px;
+    text-align: center;
+}
+
+.asia-cart-total {
+    margin-top: 24px;
+    border-top: 1px dashed #ddd;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--asia-dark);
+}
+
+.asia-cart-checkout {
+    margin-top: 20px;
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-radius: 14px;
+    background: var(--asia-dark);
+    color: #fff;
+    font-family: 'Outfit';
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.asia-cart-checkout:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px -8px rgba(46, 67, 114, .6);
+}
+
+/* Toast */
+.asia-toast {
+    position: absolute;
+    bottom: 26px;
+    left: 50%;
+    transform: translate(-50%, 80px);
+    z-index: 60;
+    background: var(--asia-dark);
+    color: #fff;
+    padding: 12px 26px;
+    border-radius: 40px;
+    font-size: .82rem;
+    transition: .4s cubic-bezier(.2, .8, .3, 1.2);
+    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, .4);
+    white-space: nowrap;
+}
+
+.asia-toast.show {
+    transform: translate(-50%, 0);
+}

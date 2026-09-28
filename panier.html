@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Jardin — Mon panier</title>
+<style>
+  :root{
+    --dark:#1a1f24;
+    --gold:#c9a86a;
+    --gold-dark:#b08f52;
+    --bg:#f6f4ef;
+    --card:#fff;
+    --text:#2b2b2b;
+    --muted:#8a8a8a;
+    --red:#d9534f;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Georgia,serif;}
+  body{background:var(--bg);color:var(--text);padding-bottom:40px;}
+
+  /* ===== HEADER ===== */
+  header{
+    background:linear-gradient(90deg, rgba(17,21,26,.92) 30%, rgba(17,21,26,.7)),
+               radial-gradient(circle at 85% 30%, #5a4626 0%, #23272d 55%);
+    padding:18px 32px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .logo{display:flex;align-items:center;gap:14px;}
+  .logo-badge{
+    width:46px;height:46px;border:2px solid var(--gold);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:20px;
+  }
+  .logo-text h1{color:#fff;font-size:26px;font-weight:500;font-family:Georgia,serif;letter-spacing:1px;}
+  .logo-text span{color:var(--gold);font-size:10px;letter-spacing:6px;}
+  .header-right{display:flex;align-items:center;gap:12px;}
+  .pill-btn{
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+    color:#fff;border-radius:22px;padding:8px 16px;font-size:14px;cursor:pointer;
+    display:flex;align-items:center;gap:8px;
+  }
+
+  main{max-width:980px;margin:0 auto;padding:28px 20px;}
+
+  /* ===== TITRE ===== */
+  .page-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;flex-wrap:wrap;gap:12px;}
+  .page-head .left{display:flex;gap:16px;align-items:flex-start;}
+  .back-btn{
+    width:42px;height:42px;border-radius:50%;border:1px solid #ddd;background:#fff;
+    font-size:18px;cursor:pointer;color:var(--text);flex-shrink:0;
+  }
+  .page-head h2{font-family:Georgia,serif;font-size:30px;display:flex;align-items:center;gap:12px;}
+  .page-head p{color:var(--muted);margin-top:6px;font-size:15px;}
+  .clear-btn{
+    background:none;border:none;color:var(--red);font-size:15px;cursor:pointer;
+    display:flex;align-items:center;gap:8px;padding-top:10px;
+  }
+
+  /* ===== ITEMS ===== */
+  .item{
+    background:var(--card);border-radius:16px;padding:18px;
+    display:flex;gap:20px;align-items:center;margin-bottom:16px;
+    box-shadow:0 2px 8px rgba(0,0,0,.04);
+  }
+  .item-img{
+    width:110px;height:110px;border-radius:12px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-size:44px;
+  }
+  .item-info{flex:1;min-width:0;}
+  .item-info h4{font-size:19px;font-family:Georgia,serif;margin-bottom:6px;display:flex;justify-content:space-between;align-items:flex-start;}
+  .remove-x{
+    background:none;border:none;font-size:20px;color:#999;cursor:pointer;line-height:1;
+  }
+  .remove-x:hover{color:var(--red);}
+  .item-info p{color:var(--muted);font-size:14px;line-height:1.5;margin-bottom:12px;}
+  .item-bottom{display:flex;justify-content:space-between;align-items:center;}
+  .item-price{color:var(--gold);font-weight:700;font-size:18px;}
+  .qty{display:flex;align-items:center;gap:14px;background:#f6f3ec;border-radius:22px;padding:5px 6px;}
+  .qty button{
+    width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;font-size:18px;
+    background:#fff;color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.1);
+  }
+  .qty button.plus{background:var(--gold);color:#fff;}
+  .qty span{font-weight:600;min-width:18px;text-align:center;}
+
+  /* ===== NOTE ===== */
+  .note-card{
+    background:var(--card);border-radius:16px;padding:20px;margin:24px 0;
+    display:flex;align-items:center;gap:16px;cursor:pointer;
+    box-shadow:0 2px 8px rgba(0,0,0,.04);
+  }
+  .note-card .ic{font-size:20px;color:var(--gold);}
+  .note-card .txt{flex:1;}
+  .note-card h5{font-size:16px;margin-bottom:4px;}
+  .note-card p{color:var(--muted);font-size:14px;}
+  .note-card .arrow{color:#bbb;font-size:20px;}
+
+  /* ===== TOTALS ===== */
+  .totals{background:var(--card);border-radius:16px;padding:22px 26px;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+  .totals .row{display:flex;justify-content:space-between;padding:8px 0;font-size:16px;}
+  .totals .row span:last-child{font-weight:600;}
+  .totals .divider{border-top:1px solid #eee;margin:12px 0;}
+  .totals .grand{font-size:20px;font-weight:700;}
+  .totals .grand span:last-child{color:var(--gold);font-size:24px;}
+
+  /* ===== ACTIONS ===== */
+  .actions{display:flex;justify-content:space-between;gap:16px;margin-top:28px;flex-wrap:wrap;}
+  .btn-outline{
+    background:#fff;border:1px solid #ccc;border-radius:14px;padding:16px 30px;
+    font-size:16px;font-weight:600;cursor:pointer;color:var(--text);
+  }
+  .btn-gold{
+    background:var(--gold);border:none;border-radius:14px;padding:16px 36px;
+    font-size:16px;font-weight:600;cursor:pointer;color:#fff;transition:.2s;
+    display:flex;align-items:center;gap:10px;
+  }
+  .btn-gold:hover{background:var(--gold-dark);}
+
+  @media(max-width:640px){
+    .item{flex-wrap:wrap;}
+    .item-img{width:80px;height:80px;font-size:32px;}
+    .actions .btn-outline,.actions .btn-gold{flex:1;text-align:center;justify-content:center;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-badge">🍴</div>
+    <div class="logo-text">
+      <h1>Le Jardin</h1>
+      <span>RESTAURANT</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <button class="pill-btn">🌐 FR ⌄</button>
+    <button class="pill-btn">🪑 Table 5</button>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-head">
+    <div class="left">
+      <button class="back-btn" onclick="history.back()">←</button>
+      <div>
+        <h2>🛒 Mon panier</h2>
+        <p>Vérifiez votre commande avant de passer à la caisse.</p>
+      </div>
+    </div>
+    <button class="clear-btn" onclick="clearCart()">🗑 Vider le panier</button>
+  </div>
+
+  <div id="cart-items">
+
+    <div class="item" data-price="110">
+      <div class="item-img" style="background:linear-gradient(135deg,#8a4b2b,#5e3018);">🍲</div>
+      <div class="item-info">
+        <h4>Tajine de Bœuf <button class="remove-x" onclick="removeItem(this)">✕</button></h4>
+        <p>Bœuf, pruneaux, amandes, épices marocaines.</p>
+        <div class="item-bottom">
+          <span class="item-price">110 DH</span>
+          <div class="qty">
+            <button onclick="changeQty(this,-1)">−</button>
+            <span class="q">1</span>
+            <button class="plus" onclick="changeQty(this,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-price="95">
+      <div class="item-img" style="background:linear-gradient(135deg,#a15c2f,#7a3f1d);">🍗</div>
+      <div class="item-info">
+        <h4>Poulet Grillé <button class="remove-x" onclick="removeItem(this)">✕</button></h4>
+        <p>Poulet mariné aux épices traditionnelles.</p>
+        <div class="item-bottom">
+          <span class="item-price">95 DH</span>
+          <div class="qty">
+            <button onclick="changeQty(this,-1)">−</button>
+            <span class="q">1</span>
+            <button class="plus" onclick="changeQty(this,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-price="40">
+      <div class="item-img" style="background:linear-gradient(135deg,#e8b64c,#c98f2a);">🍮</div>
+      <div class="item-info">
+        <h4>Crème Brûlée <button class="remove-x" onclick="removeItem(this)">✕</button></h4>
+        <p>Vanille, caramel croquant.</p>
+        <div class="item-bottom">
+          <span class="item-price">40 DH</span>
+          <div class="qty">
+            <button onclick="changeQty(this,-1)">−</button>
+            <span class="q">1</span>
+            <button class="plus" onclick="changeQty(this,1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="note-card">
+    <span class="ic">🍴</span>
+    <div class="txt">
+      <h5>Ajouter une note</h5>
+      <p>Ex : Sans oignon, bien cuit, etc...</p>
+    </div>
+    <span class="arrow">›</span>
+  </div>
+
+  <div class="totals">
+    <div class="row"><span>Sous-total</span><span id="subtotal">245 DH</span></div>
+    <div class="row"><span>Frais de service (10%)</span><span id="service">24,5 DH</span></div>
+    <div class="divider"></div>
+    <div class="row grand"><span>Total</span><span id="grand">269,5 DH</span></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-outline" onclick="history.back()">← Continuer le menu</button>
+    <button class="btn-gold" onclick="order()">📋 Passer la commande →</button>
+  </div>
+
+</main>
+
+<script>
+  function changeQty(btn, delta){
+    const item = btn.closest('.item');
+    const qEl = item.querySelector('.q');
+    let q = parseInt(qEl.textContent) + delta;
+    if(q < 1){ removeItem(btn); return; }
+    qEl.textContent = q;
+    recalc();
+  }
+  function removeItem(el){
+    el.closest('.item').remove();
+    recalc();
+  }
+  function clearCart(){
+    document.getElementById('cart-items').innerHTML = '';
+    recalc();
+  }
+  function recalc(){
+    let sub = 0;
+    document.querySelectorAll('.item').forEach(it=>{
+      sub += parseInt(it.dataset.price) * parseInt(it.querySelector('.q').textContent);
+    });
+    const service = sub * 0.10;
+    const total = sub + service;
+    document.getElementById('subtotal').textContent = sub.toLocaleString('fr-FR') + ' DH';
+    document.getElementById('service').textContent = service.toLocaleString('fr-FR') + ' DH';
+    document.getElementById('grand').textContent = total.toLocaleString('fr-FR') + ' DH';
+  }
+  function order(){
+    alert('✅ Commande envoyée à la cuisine ! Merci.');
+  }
+</script>
+
+</body>
+</html>

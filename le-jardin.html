@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Jardin — Restaurant</title>
+<style>
+  :root{
+    --dark:#1a1f24;
+    --dark2:#11151a;
+    --gold:#c9a86a;
+    --gold-dark:#b08f52;
+    --cream:#faf6ef;
+    --text:#2b2b2b;
+    --muted:#7a7a7a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Georgia,serif;}
+  body{background:#f3efe7;color:var(--text);}
+
+  /* ===== HEADER ===== */
+  header{
+    background:var(--dark);
+    padding:14px 40px;
+    display:flex;align-items:center;justify-content:space-between;
+    position:sticky;top:0;z-index:100;
+  }
+  .logo{display:flex;align-items:center;gap:12px;}
+  .logo-badge{
+    width:44px;height:44px;border:2px solid var(--gold);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;color:var(--gold);
+    font-size:20px;
+  }
+  .logo-text h1{color:#fff;font-size:22px;font-weight:600;letter-spacing:1px;font-family:Georgia,serif;}
+  .logo-text span{color:var(--gold);font-size:10px;letter-spacing:5px;}
+  nav{display:flex;gap:32px;}
+  nav a{color:#d8d8d8;text-decoration:none;font-size:15px;position:relative;}
+  nav a.active{color:#fff;font-weight:600;}
+  nav a.active::after{
+    content:'';position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--gold);
+  }
+  .header-right{display:flex;align-items:center;gap:16px;}
+  .langs{display:flex;gap:10px;font-size:13px;color:#ccc;}
+  .langs .on{color:var(--gold);font-weight:700;}
+  .table-btn{
+    background:#2a3138;color:#fff;border:1px solid #3a434c;border-radius:20px;
+    padding:8px 18px;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:8px;
+  }
+  .search-icon{color:#ccc;font-size:18px;cursor:pointer;}
+
+  /* ===== HERO ===== */
+  .hero{
+    background:linear-gradient(90deg, rgba(17,21,26,.95) 30%, rgba(17,21,26,.55)),
+               radial-gradient(circle at 80% 40%, #4a3b26 0%, #22262c 60%);
+    min-height:340px;
+    display:flex;align-items:center;
+    padding:60px 40px;
+    position:relative;overflow:hidden;
+  }
+  .hero::before{
+    content:'🍽️';position:absolute;right:6%;top:50%;transform:translateY(-50%);
+    font-size:180px;opacity:.35;
+  }
+  .hero-content{max-width:600px;}
+  .hero-content .overline{
+    color:var(--gold);letter-spacing:8px;font-size:13px;margin-bottom:14px;
+  }
+  .hero-content h2{
+    color:#fff;font-family:Georgia,serif;font-size:64px;font-weight:500;margin-bottom:18px;
+  }
+  .hero-content p{color:#cfcfcf;font-size:18px;line-height:1.6;max-width:420px;}
+
+  /* ===== CATEGORIES ===== */
+  .categories{
+    display:flex;gap:14px;flex-wrap:wrap;
+    padding:22px 40px;background:var(--cream);
+  }
+  .cat{
+    display:flex;align-items:center;gap:10px;
+    padding:12px 26px;border-radius:30px;border:1px solid #e0d8c6;
+    background:#fff;font-size:15px;cursor:pointer;color:#444;transition:.2s;
+  }
+  .cat:hover{border-color:var(--gold);}
+  .cat.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+  .cat .ic{font-size:18px;}
+
+  /* ===== SECTIONS ===== */
+  main{max-width:1200px;margin:0 auto;padding:10px 40px 120px;}
+  .section-head{display:flex;justify-content:space-between;align-items:baseline;margin:34px 0 20px;}
+  .section-head h3{
+    font-family:Georgia,serif;font-size:32px;font-weight:600;
+  }
+  .section-head h3::after{
+    content:'';display:block;width:60px;height:3px;background:var(--gold);margin-top:6px;
+  }
+  .see-all{color:var(--gold);text-decoration:none;font-size:14px;}
+
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  @media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:560px){.grid{grid-template-columns:1fr;}}
+
+  .card{
+    background:#fff;border-radius:14px;overflow:hidden;
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+    display:flex;flex-direction:column;transition:.25s;
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:0 8px 22px rgba(0,0,0,.12);}
+  .card-img{
+    height:150px;position:relative;
+    display:flex;align-items:center;justify-content:center;font-size:56px;
+  }
+  .badge{
+    position:absolute;top:10px;left:10px;
+    font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;color:#fff;
+  }
+  .badge.green{background:#2e9e5b;}
+  .badge.red{background:#d4453b;}
+  .card-body{padding:16px;display:flex;flex-direction:column;flex:1;}
+  .card-body h4{font-size:17px;margin-bottom:6px;}
+  .card-body p{font-size:13px;color:var(--muted);line-height:1.45;flex:1;}
+  .card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;}
+  .price{font-weight:700;font-size:16px;}
+  .add-btn{
+    width:34px;height:34px;border-radius:50%;border:none;
+    background:var(--gold);color:#fff;font-size:20px;cursor:pointer;line-height:1;
+    transition:.2s;
+  }
+  .add-btn:hover{background:var(--gold-dark);}
+
+  /* ===== CART BAR ===== */
+  .cart-bar{
+    position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+    width:min(920px,92%);
+    background:var(--dark2);border-radius:16px;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 26px;box-shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  .cart-left{display:flex;align-items:center;gap:12px;color:#fff;font-size:16px;}
+  .cart-count{
+    background:var(--gold);color:#fff;font-size:12px;font-weight:700;
+    width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  }
+  .cart-total{color:#fff;font-weight:700;font-size:18px;}
+  .cart-btn{
+    background:var(--gold);color:#fff;border:none;border-radius:12px;
+    padding:12px 28px;font-size:15px;font-weight:600;cursor:pointer;transition:.2s;
+  }
+  .cart-btn:hover{background:var(--gold-dark);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-badge">🍴</div>
+    <div class="logo-text">
+      <h1>Le Jardin</h1>
+      <span>RESTAURANT</span>
+    </div>
+  </div>
+  <nav>
+    <a href="#" class="active">Menu</a>
+    <a href="#">À propos</a>
+    <a href="#">Contact</a>
+  </nav>
+  <div class="header-right">
+    <div class="langs"><span class="on">FR</span><span>AR</span><span>EN</span></div>
+    <span class="search-icon">🔍</span>
+    <button class="table-btn">🪑 Table 5</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="overline">BIENVENUE AU</div>
+    <h2>Le Jardin</h2>
+    <p>Une expérience culinaire unique, entre tradition et modernité.</p>
+  </div>
+</section>
+
+<div class="categories">
+  <div class="cat active"><span class="ic">🥗</span> Entrées</div>
+  <div class="cat"><span class="ic">🍝</span> Plats</div>
+  <div class="cat"><span class="ic">🍲</span> Tajines</div>
+  <div class="cat"><span class="ic">🍖</span> Grillades</div>
+  <div class="cat"><span class="ic">🍰</span> Desserts</div>
+  <div class="cat"><span class="ic">🥤</span> Boissons</div>
+</div>
+
+<main>
+
+  <div class="section-head">
+    <h3>Entrées</h3>
+    <a href="#" class="see-all">Voir tout →</a>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#3f6b3f,#7fa65a);">🥗<span class="badge green">Végétarien</span></div>
+      <div class="card-body">
+        <h4>Salade Marocaine</h4>
+        <p>Tomates, concombres, oignons, poivrons, huile d'olive.</p>
+        <div class="card-foot"><span class="price">45 DH</span><button class="add-btn">+</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#d9c39a,#b99a63);">🫓</div>
+      <div class="card-body">
+        <h4>Houmous</h4>
+        <p>Purée de pois chiches, tahini, citron et épices.</p>
+        <div class="card-foot"><span class="price">40 DH</span><button class="add-btn">+</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#c98d4b,#a5692f);">🥟<span class="badge red">Best Seller</span></div>
+      <div class="card-body">
+        <h4>Samoussas</h4>
+        <p>Feuilletés croustillants farcis au bœuf épicé.</p>
+        <div class="card-foot"><span class="price">50 DH</span><button class="add-btn">+</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#e07a4f,#c0522e);">🍤</div>
+      <div class="card-body">
+        <h4>Crevettes à l'ail</h4>
+        <p>Crevettes sautées à l'ail et aux herbes fraîches.</p>
+        <div class="card-foot"><span class="price">85 DH</span><button class="add-btn">+</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <h3>Plats</h3>
+    <a href="#" class="see-all">Voir tout →</a>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#a15c2f,#7a3f1d);">🍗<span class="badge red">Best Seller</span></div>
+      <div class="card-body">
+        <h4>Poulet Grillé</h4>
+        <p>Poulet mariné aux épices traditionnelles.</p>
+        <div class="card-foot"><span class="price">95 DH</span><button class="add-btn">+</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#d9a441,#b07824);">🍝</div>
+      <div class="card-body">
+        <h4>Tagliatelles aux Fruits de Mer</h4>
+        <p>Sauce crémeuse, crevettes, calamars, moules.</p>
+        <div class="card-foot"><span class="price">120 DH</span><button class="add-btn">+</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#8a4b2b,#5e3018);">🍲</div>
+      <div class="card-body">
+        <h4>Tajine de Bœuf</h4>
+        <p>Bœuf, pruneaux, amandes, épices marocaines.</p>
+        <div class="card-foot"><span class="price">110 DH</span><button class="add-btn">+</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#4f7a3a,#355423);">🥘<span class="badge green">Végétarien</span></div>
+      <div class="card-body">
+        <h4>Tajine de Légumes</h4>
+        <p>Légumes frais, épices traditionnelles.</p>
+        <div class="card-foot"><span class="price">85 DH</span><button class="add-btn">+</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <h3>Desserts</h3>
+    <a href="#" class="see-all">Voir tout →</a>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#e8b64c,#c98f2a);">🍮</div>
+      <div class="card-body">
+        <h4>Crème Brûlée</h4>
+        <p>Vanille, caramel croquant.</p>
+        <div class="card-foot"><span class="price">40 DH</span><button class="add-btn">+</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#5a3826,#3a2115);">🍫</div>
+      <div class="card-body">
+        <h4>Fondant au Chocolat</h4>
+        <p>Cœur coulant, glace vanille.</p>
+        <div class="card-foot"><span class="price">50 DH</span><button class="add-btn">+</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#e25b6a,#b83248);">🍓</div>
+      <div class="card-body">
+        <h4>Salade de Fruits</h4>
+        <p>Fruits de saison.</p>
+        <div class="card-foot"><span class="price">35 DH</span><button class="add-btn">+</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#4f8a5a,#2f6b3d);">🍵</div>
+      <div class="card-body">
+        <h4>Thé à la Menthe</h4>
+        <p>Thé vert, menthe fraîche.</p>
+        <div class="card-foot"><span class="price">25 DH</span><button class="add-btn">+</button></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div class="cart-bar">
+  <div class="cart-left">🛒 Votre commande <span class="cart-count">2</span></div>
+  <div class="cart-total">145 DH</div>
+  <button class="cart-btn">Voir le panier →</button>
+</div>
+
+<script>
+  // Petite interactivité : ajouter au panier
+  let count = 2, total = 145;
+  const countEl = document.querySelector('.cart-count');
+  const totalEl = document.querySelector('.cart-total');
+  document.querySelectorAll('.add-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const price = parseInt(btn.closest('.card-body').querySelector('.price').textContent);
+      count++; total += price;
+      countEl.textContent = count;
+      totalEl.textContent = total + ' DH';
+    });
+  });
+  // Catégories cliquables
+  document.querySelectorAll('.cat').forEach(c=>{
+    c.addEventListener('click', ()=>{
+      document.querySelector('.cat.active').classList.remove('active');
+      c.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
