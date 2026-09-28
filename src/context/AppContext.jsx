@@ -125,7 +125,7 @@ export const AppProvider = ({ children }) => {
   const cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
 
-  const saveOrder = (note = '') => {
+  const saveOrder = async (note = '') => {
     if (cart.length === 0) return null;
     const orderId = Date.now();
     const serviceFee = cartTotal * 0.10;
@@ -145,8 +145,15 @@ export const AppProvider = ({ children }) => {
     setOrders((prev) => [newOrder, ...prev]);
     clearCart();
 
-    // Background sync to Supabase
-    pushOrderToSupabase(cart, { cartTotal, serviceFee, grandTotal }, table, note, orderId);
+    // Await Supabase sync — log any error visibly
+    try {
+      const dbId = await pushOrderToSupabase(cart, { cartTotal, serviceFee, grandTotal }, table, note, orderId);
+      if (!dbId) {
+        alert('Erreur DB: La commande n\'a pas pu être envoyée au serveur. Vérifiez la console.');
+      }
+    } catch (err) {
+      alert('Erreur critique lors de l\'envoi de la commande: ' + err.message);
+    }
 
     return orderId;
   };

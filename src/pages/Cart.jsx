@@ -11,8 +11,8 @@ export default function Cart() {
     const service = cartTotal * 0.10;
     const grand = cartTotal + service;
 
-    const handleOrder = () => {
-        const orderId = saveOrder(note);
+    const handleOrder = async () => {
+        const orderId = await saveOrder(note);
         if (orderId) navigate(`/order/${orderId}`);
     };
 
