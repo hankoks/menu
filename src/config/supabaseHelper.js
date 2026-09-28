@@ -1,13 +1,18 @@
 import { supabase } from './supabaseClient';
 
-// Helper to ensure a default restaurant exists and return its ID
+// Helper to get the main restaurant ID (most recently created = the real one)
 export const getDefaultRestaurantId = async () => {
     try {
-        const { data, error } = await supabase.from('restaurants').select('id').limit(1).single();
+        const { data, error } = await supabase
+            .from('restaurants')
+            .select('id')
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .single();
         if (data) return data.id;
 
         // If none exists, create a default one
-        const res = await supabase.from('restaurants').insert({ name: 'Le Jardin (Default)' }).select('id').single();
+        const res = await supabase.from('restaurants').insert({ name: 'Le Jardin' }).select('id').single();
         return res.data?.id || null;
     } catch (e) {
         console.error("Erreur lors de la récupération du restaurant:", e);
