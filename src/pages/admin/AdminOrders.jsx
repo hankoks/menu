@@ -1,12 +1,76 @@
-import React from 'react';
-import { useAppContext } from '../../context/AppContext';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '../../config/supabaseClient';
 
 const STATUS_FLOW = { pending: 'kitchen', kitchen: 'served', served: 'served' };
 const STATUS_LABEL = { pending: 'En attente', kitchen: 'En cuisine', served: 'Servi ✓' };
 const STATUS_NEXT = { pending: '→ En cuisine', kitchen: '→ Servi', served: 'Terminé' };
 
 export default function AdminOrders() {
-    const { orders, updateOrderStatus } = useAppContext();
+    const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            setLoading(true);
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return;
+
+            const { data: member } = await supabase.from('restaurant_members').select('restaurant_id').eq('profile_id', user.id).single();
+            if (!member) return;
+
+            const { data: rawOrders } = await supabase.from('orders')
+                .select(`
+                    id, subtotal, service_fee, total, status, note, created_at,
+                    tables(number),
+                    order_items(name_snapshot, variant_snapshot, quantity, unit_price)
+                `)
+                .eq('restaurant_id', member.restaurant_id)
+                .order('created_at', { ascending: false })
+                .limit(50);
+
+            if (rawOrders) {
+                // Map DB shape to UI shape
+                const mapped = rawOrders.map(o => ({
+                    id: o.id,
+                    table: o.tables?.number || '?',
+                    time: new Date(o.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
+                    status: o.status,
+                    note: o.note,
+                    subtotal: o.subtotal,
+                    serviceFee: o.service_fee,
+                    total: o.total,
+                    items: o.order_items.map(i => ({
+                        name: i.name_snapshot,
+                        variantName: i.variant_snapshot,
+                        quantity: i.quantity,
+                        price: i.unit_price,
+                        icon: '🍽️',
+                        colors: ['#eee', '#ccc']
+                    }))
+                }));
+                setOrders(mapped);
+            }
+            setLoading(false);
+        };
+
+        fetchOrders();
+
+        const channel = supabase.channel('admin-orders-live')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
+                fetchOrders();
+            })
+            .subscribe();
+
+        return () => { supabase.removeChannel(channel); };
+    }, []);
+
+    const updateOrderStatus = async (id, nextStatus) => {
+        // Optimistic UI
+        setOrders(prev => prev.map(o => o.id === id ? { ...o, status: nextStatus } : o));
+        await supabase.from('orders').update({ status: nextStatus }).eq('id', id);
+    };
+
+    if (loading) return <div style={{ padding: 40, textAlign: 'center' }}>Chargement...</div>;
 
     return (
         <div className="admin-page">
@@ -34,7 +98,7 @@ export default function AdminOrders() {
                                     </div>
                                 </div>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                                    <span className={`admin-badge status-${o.status}`}>{STATUS_LABEL[o.status]}</span>
+                                    <span className={`admin-badge status-${o.status}`}>{STATUS_LABEL[o.status] || o.status}</span>
                                     {o.status !== 'served' && (
                                         <button className="order-next-btn" onClick={() => updateOrderStatus(o.id, STATUS_FLOW[o.status])}>
                                             {STATUS_NEXT[o.status]}
@@ -47,7 +111,7 @@ export default function AdminOrders() {
                                     <span style={{ fontSize: 16 }}>⚠️</span>
                                     <div>
                                         <strong style={{ display: 'block', marginBottom: 2 }}>Note spéciale:</strong>
-                                        <i>"{o.note}"</i>
+                                        <i>{o.note}</i>
                                     </div>
                                 </div>
                             )}
