@@ -1,35 +1,60 @@
 // Web Audio API lightweight Notification Sound Generator
-// Respects browser autoplay restrictions by only playing upon interaction or active tab
+// Respects browser autoplay restrictions by managing a persistent AudioContext
+
+let sharedCtx = null;
+
+const initAudio = () => {
+    if (sharedCtx) return;
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+
+    sharedCtx = new AudioContext();
+};
+
+// Any click anywhere on the page will resume the AudioContext, allowing background sounds
+const unlockAudio = () => {
+    if (sharedCtx && sharedCtx.state === 'suspended') {
+        sharedCtx.resume();
+    }
+};
+
+// Attach early to catch the first user interaction
+if (typeof window !== 'undefined') {
+    window.addEventListener('click', () => {
+        initAudio();
+        unlockAudio();
+    }, { once: true });
+}
 
 export const playNotificationSound = () => {
     try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContext) return;
+        if (!sharedCtx) {
+            initAudio();
+        }
 
-        const ctx = new AudioContext();
-        if (ctx.state === 'suspended') {
-            // Autoplay blocked, fail silently
+        if (!sharedCtx || sharedCtx.state === 'suspended') {
+            console.warn("Audio playback blocked by browser. User must click the page first.");
             return;
         }
 
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
+        const osc = sharedCtx.createOscillator();
+        const gain = sharedCtx.createGain();
 
         osc.connect(gain);
-        gain.connect(ctx.destination);
+        gain.connect(sharedCtx.destination);
 
         // Pleasant double-chime setup (Ting-Ting!)
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(880, ctx.currentTime); // A5
-        osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.1); // A6 slide
+        osc.frequency.setValueAtTime(880, sharedCtx.currentTime); // A5
+        osc.frequency.exponentialRampToValueAtTime(1760, sharedCtx.currentTime + 0.1); // A6 slide
 
-        gain.gain.setValueAtTime(0, ctx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+        gain.gain.setValueAtTime(0, sharedCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.5, sharedCtx.currentTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.01, sharedCtx.currentTime + 0.3);
 
-        osc.start(ctx.currentTime);
-        osc.stop(ctx.currentTime + 0.3);
+        osc.start(sharedCtx.currentTime);
+        osc.stop(sharedCtx.currentTime + 0.3);
     } catch (e) {
-        console.warn("Audio generation not supported or enabled.");
+        console.warn("Audio generation failed:", e);
     }
 };
