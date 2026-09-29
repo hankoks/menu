@@ -1,60 +1,29 @@
-// Web Audio API lightweight Notification Sound Generator
-// Respects browser autoplay restrictions by managing a persistent AudioContext
+// Standard HTML5 Audio fallback for notification sounds
+// A very short, pleasant "drop" bell sound in base64 wav format
+const NOTIF_SOUND_B64 = "data:audio/mp3;base64,//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExDQAACsEAABwMAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs=";
 
-let sharedCtx = null;
+let audioPlayer = null;
 
-const initAudio = () => {
-    if (sharedCtx) return;
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-
-    sharedCtx = new AudioContext();
-};
-
-// Any click anywhere on the page will resume the AudioContext, allowing background sounds
-const unlockAudio = () => {
-    if (sharedCtx && sharedCtx.state === 'suspended') {
-        sharedCtx.resume();
-    }
-};
-
-// Attach early to catch the first user interaction
 if (typeof window !== 'undefined') {
-    window.addEventListener('click', () => {
-        initAudio();
-        unlockAudio();
-    }, { once: true });
+    // We create the audio element once and keep it in memory
+    audioPlayer = new Audio(NOTIF_SOUND_B64);
+    audioPlayer.volume = 0.8;
 }
 
 export const playNotificationSound = () => {
     try {
-        if (!sharedCtx) {
-            initAudio();
+        if (audioPlayer) {
+            audioPlayer.currentTime = 0; // Rewind to start
+            const playPromise = audioPlayer.play();
+
+            // Handle browser autoplay policies gracefully
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.warn("Autoplay prevented sound from playing. User interaction required:", error);
+                });
+            }
         }
-
-        if (!sharedCtx || sharedCtx.state === 'suspended') {
-            console.warn("Audio playback blocked by browser. User must click the page first.");
-            return;
-        }
-
-        const osc = sharedCtx.createOscillator();
-        const gain = sharedCtx.createGain();
-
-        osc.connect(gain);
-        gain.connect(sharedCtx.destination);
-
-        // Pleasant double-chime setup (Ting-Ting!)
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(880, sharedCtx.currentTime); // A5
-        osc.frequency.exponentialRampToValueAtTime(1760, sharedCtx.currentTime + 0.1); // A6 slide
-
-        gain.gain.setValueAtTime(0, sharedCtx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.5, sharedCtx.currentTime + 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.01, sharedCtx.currentTime + 0.3);
-
-        osc.start(sharedCtx.currentTime);
-        osc.stop(sharedCtx.currentTime + 0.3);
     } catch (e) {
-        console.warn("Audio generation failed:", e);
+        console.error("Audio playback error:", e);
     }
 };
