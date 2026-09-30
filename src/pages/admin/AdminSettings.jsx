@@ -59,8 +59,24 @@ export default function AdminSettings() {
 
     const update = (key, val) => setLocal(prev => ({ ...prev, [key]: val }));
 
+    const saveBrandingToSupabase = async (brandingData) => {
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return;
+            const { data: member } = await supabase
+                .from('restaurant_members').select('restaurant_id').eq('profile_id', user.id).single();
+            if (!member) return;
+            await supabase.from('restaurants')
+                .update({ branding: brandingData })
+                .eq('id', member.restaurant_id);
+        } catch (err) {
+            console.error('Erreur lors de la sauvegarde du thème:', err);
+        }
+    };
+
     const handleSave = () => {
-        setBranding(local);
+        setBranding(local);            // update localStorage + React state immediately
+        saveBrandingToSupabase(local); // persist to Supabase for all QR devices
         setSaved(true);
         setTimeout(() => setSaved(false), 2500);
     };

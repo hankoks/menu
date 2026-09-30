@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { menuData as initialMenu } from '../data';
 import { pushOrderToSupabase, updateOrderStatusInDB } from '../config/supabaseHelper';
+import { supabase } from '../config/supabaseClient';
 
 const AppContext = createContext();
 
@@ -57,6 +58,17 @@ export const AppProvider = ({ children }) => {
     localStorage.setItem('lj_branding', JSON.stringify(next));
   };
 
+  // On mount: fetch branding from Supabase so every device (incl. QR customers) gets the admin-set theme
+  useEffect(() => {
+    supabase.from('restaurants').select('branding').single().then(({ data }) => {
+      if (data?.branding && Object.keys(data.branding).length > 0) {
+        const merged = { ...DEFAULT_BRANDING, ...data.branding };
+        setBrandingState(merged);
+        localStorage.setItem('lj_branding', JSON.stringify(merged));
+      }
+    });
+  }, []);
+
   // Inject CSS custom properties whenever branding changes
   useEffect(() => {
     const root = document.documentElement;
@@ -78,12 +90,42 @@ export const AppProvider = ({ children }) => {
     try {
       const saved = JSON.parse(localStorage.getItem('lj_menu'));
       if (!saved) return initialMenu;
-      // Merge: keep saved items, add any new items from initialMenu not yet in saved
       const savedIds = new Set(saved.map(i => i.id));
       const newItems = initialMenu.filter(i => !savedIds.has(i.id));
       return [...saved, ...newItems];
     } catch { return initialMenu; }
   });
+
+  // On mount: fetch menu from Supabase so all QR devices see the admin-configured menu
+  useEffect(() => {
+    supabase.from('restaurants').select('id, menu_data').single().then(({ data }) => {
+      if (data?.menu_data && Array.isArray(data.menu_data) && data.menu_data.length > 0) {
+        // Supabase has data → use it on all devices
+        setMenu(data.menu_data);
+        localStorage.setItem('lj_menu', JSON.stringify(data.menu_data));
+      } else if (data?.id) {
+        // Supabase is empty → push local menu up (first-time migration, runs for admin who is logged in)
+        const localMenu = (() => {
+          try { return JSON.parse(localStorage.getItem('lj_menu')) || null; } catch { return null; }
+        })();
+        if (localMenu && localMenu.length > 0) {
+          supabase.from('restaurants').update({ menu_data: localMenu }).eq('id', data.id);
+        }
+      }
+    });
+  }, []);
+
+  // Helper: write current menu to Supabase
+  const saveMenuToSupabase = async (updatedMenu) => {
+    try {
+      const { data: restaurant } = await supabase.from('restaurants').select('id').single();
+      if (restaurant?.id) {
+        await supabase.from('restaurants').update({ menu_data: updatedMenu }).eq('id', restaurant.id);
+      }
+    } catch (e) {
+      console.error('Erreur sync menu Supabase:', e);
+    }
+  };
 
   // Persist menu & orders to localStorage on every change
   useEffect(() => { localStorage.setItem('lj_menu', JSON.stringify(menu)); }, [menu]);
@@ -166,18 +208,30 @@ export const AppProvider = ({ children }) => {
     updateOrderStatusInDB(orderId, status);
   };
 
-  // Menu CRUD
+  // Menu CRUD — each mutation also syncs to Supabase so QR customers see live changes
   const addMenuItem = (item) => {
     const newItem = { ...item, id: Date.now() };
-    setMenu((prev) => [...prev, newItem]);
+    setMenu((prev) => {
+      const next = [...prev, newItem];
+      saveMenuToSupabase(next);
+      return next;
+    });
   };
 
   const updateMenuItem = (updatedItem) => {
-    setMenu((prev) => prev.map((i) => (i.id === updatedItem.id ? updatedItem : i)));
+    setMenu((prev) => {
+      const next = prev.map((i) => (i.id === updatedItem.id ? updatedItem : i));
+      saveMenuToSupabase(next);
+      return next;
+    });
   };
 
   const deleteMenuItem = (id) => {
-    setMenu((prev) => prev.filter((i) => i.id !== id));
+    setMenu((prev) => {
+      const next = prev.filter((i) => i.id !== id);
+      saveMenuToSupabase(next);
+      return next;
+    });
   };
 
   return (
