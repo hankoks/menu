@@ -20,6 +20,7 @@ import AdminStaff from './pages/admin/AdminStaff';
 import AdminTables from './pages/admin/AdminTables';
 import AsiaTemplate from './pages/themes/AsiaTemplate';
 import BorcelleTemplate from './pages/themes/BorcelleTemplate';
+import FastbiteTemplate from './pages/themes/FastbiteTemplate';
 
 function CustomerLayout({ children }) {
   const { branding } = useAppContext();
@@ -29,6 +30,9 @@ function CustomerLayout({ children }) {
   }
   if (branding.template === 'borcelle') {
     return <BorcelleTemplate />;
+  }
+  if (branding.template === 'fastbite') {
+    return <FastbiteTemplate />;
   }
 
   return (
@@ -43,7 +47,7 @@ function CustomerLayout({ children }) {
 // Optional helper to block deep customer routes for single-page templates
 function ThemeRouter({ children }) {
   const { branding } = useAppContext();
-  if (branding.template === 'asia' || branding.template === 'borcelle') {
+  if (branding.template === 'asia' || branding.template === 'borcelle' || branding.template === 'fastbite') {
     return <Navigate to="/" replace />;
   }
   return <CustomerLayout>{children}</CustomerLayout>;

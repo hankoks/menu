@@ -31,6 +31,11 @@ const DEFAULT_BRANDING = {
   bcCream: '#faf4ec',
   bcPaper: '#f3ead9',
   bcMuted: '#8a7f70',
+  // Fastbite specific colors
+  fbRed: '#e8362d',
+  fbYellow: '#ffc91f',
+  fbDark: '#17161a',
+  fbCard: '#232227',
 };
 
 export const AppProvider = ({ children }) => {

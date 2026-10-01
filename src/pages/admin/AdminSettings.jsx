@@ -9,12 +9,12 @@ const FONT_OPTIONS = [
 ];
 
 const PRESET_THEMES = [
-    { label: '🌿 Jardin (défaut)', accentColor: '#c9a86a', accentDark: '#b08f52', darkBg: '#1a1f24', darkBg2: '#11151a', bodyBg: '#f3efe7', asiaAccent: '#c9a86a', asiaDark: '#1a1f24', asiaBg: '#f6f1e7', asiaText: '#2e3a52', bcTerra: '#c9a86a', bcInk: '#1a1f24', bcCream: '#faf4ec', bcPaper: '#f3ead9' },
-    { label: '🔴 Rouge Signature', accentColor: '#c0392b', accentDark: '#96281b', darkBg: '#1c1010', darkBg2: '#120a0a', bodyBg: '#fdf5f5', asiaAccent: '#c0392b', asiaDark: '#1c1010', asiaBg: '#fdf5f5', asiaText: '#1c1010', bcTerra: '#c0392b', bcInk: '#1c1010', bcCream: '#fdf5f5', bcPaper: '#f7ebeb' },
-    { label: '🔵 Bleu Méditerranée', accentColor: '#2980b9', accentDark: '#1a6fa6', darkBg: '#0d1b2a', darkBg2: '#0a1520', bodyBg: '#f0f4f8', asiaAccent: '#2980b9', asiaDark: '#0d1b2a', asiaBg: '#f0f4f8', asiaText: '#0a1520', bcTerra: '#2980b9', bcInk: '#0d1b2a', bcCream: '#f0f4f8', bcPaper: '#e2e8f0' },
-    { label: '🟣 Violet Royal', accentColor: '#8e44ad', accentDark: '#6c3483', darkBg: '#1b0d2a', darkBg2: '#120820', bodyBg: '#f5f0fb', asiaAccent: '#8e44ad', asiaDark: '#1b0d2a', asiaBg: '#f5f0fb', asiaText: '#120820', bcTerra: '#8e44ad', bcInk: '#1b0d2a', bcCream: '#f5f0fb', bcPaper: '#f1e6f9' },
-    { label: '⚫ Noir Luxe', accentColor: '#e5c46b', accentDark: '#c9a84a', darkBg: '#000000', darkBg2: '#0a0a0a', bodyBg: '#f0ede8', asiaAccent: '#e5c46b', asiaDark: '#000000', asiaBg: '#f0ede8', asiaText: '#0a0a0a', bcTerra: '#e5c46b', bcInk: '#080808', bcCream: '#f0ede8', bcPaper: '#e2ded9' },
-    { label: '🟢 Vert Nature', accentColor: '#27ae60', accentDark: '#1e8449', darkBg: '#0d1f14', darkBg2: '#091409', bodyBg: '#f0f8f2', asiaAccent: '#27ae60', asiaDark: '#0d1f14', asiaBg: '#f0f8f2', asiaText: '#091409', bcTerra: '#27ae60', bcInk: '#0d1f14', bcCream: '#f0f8f2', bcPaper: '#e2f2e7' },
+    { label: '🌿 Jardin (défaut)', accentColor: '#c9a86a', accentDark: '#b08f52', darkBg: '#1a1f24', darkBg2: '#11151a', bodyBg: '#f3efe7', asiaAccent: '#c9a86a', asiaDark: '#1a1f24', asiaBg: '#f6f1e7', asiaText: '#2e3a52', bcTerra: '#c9a86a', bcInk: '#1a1f24', bcCream: '#faf4ec', bcPaper: '#f3ead9', fbRed: '#c9a86a', fbYellow: '#f5e0a0', fbDark: '#1a1f24', fbCard: '#252a2f' },
+    { label: '🔴 Rouge Signature', accentColor: '#c0392b', accentDark: '#96281b', darkBg: '#1c1010', darkBg2: '#120a0a', bodyBg: '#fdf5f5', asiaAccent: '#c0392b', asiaDark: '#1c1010', asiaBg: '#fdf5f5', asiaText: '#1c1010', bcTerra: '#c0392b', bcInk: '#1c1010', bcCream: '#fdf5f5', bcPaper: '#f7ebeb', fbRed: '#c0392b', fbYellow: '#f39c12', fbDark: '#1c1010', fbCard: '#2a1515' },
+    { label: '🔵 Bleu Méditerranée', accentColor: '#2980b9', accentDark: '#1a6fa6', darkBg: '#0d1b2a', darkBg2: '#0a1520', bodyBg: '#f0f4f8', asiaAccent: '#2980b9', asiaDark: '#0d1b2a', asiaBg: '#f0f4f8', asiaText: '#0a1520', bcTerra: '#2980b9', bcInk: '#0d1b2a', bcCream: '#f0f4f8', bcPaper: '#e2e8f0', fbRed: '#2980b9', fbYellow: '#3498db', fbDark: '#0d1b2a', fbCard: '#162235' },
+    { label: '🟣 Violet Royal', accentColor: '#8e44ad', accentDark: '#6c3483', darkBg: '#1b0d2a', darkBg2: '#120820', bodyBg: '#f5f0fb', asiaAccent: '#8e44ad', asiaDark: '#1b0d2a', asiaBg: '#f5f0fb', asiaText: '#120820', bcTerra: '#8e44ad', bcInk: '#1b0d2a', bcCream: '#f5f0fb', bcPaper: '#f1e6f9', fbRed: '#8e44ad', fbYellow: '#e74c3c', fbDark: '#1b0d2a', fbCard: '#261535' },
+    { label: '⚫ Noir Luxe', accentColor: '#e5c46b', accentDark: '#c9a84a', darkBg: '#000000', darkBg2: '#0a0a0a', bodyBg: '#f0ede8', asiaAccent: '#e5c46b', asiaDark: '#000000', asiaBg: '#f0ede8', asiaText: '#0a0a0a', bcTerra: '#e5c46b', bcInk: '#080808', bcCream: '#f0ede8', bcPaper: '#e2ded9', fbRed: '#e74c3c', fbYellow: '#e5c46b', fbDark: '#000000', fbCard: '#111111' },
+    { label: '🟢 Vert Nature', accentColor: '#27ae60', accentDark: '#1e8449', darkBg: '#0d1f14', darkBg2: '#091409', bodyBg: '#f0f8f2', asiaAccent: '#27ae60', asiaDark: '#0d1f14', asiaBg: '#f0f8f2', asiaText: '#091409', bcTerra: '#27ae60', bcInk: '#0d1f14', bcCream: '#f0f8f2', bcPaper: '#e2f2e7', fbRed: '#27ae60', fbYellow: '#f1c40f', fbDark: '#0d1f14', fbCard: '#142a1c' },
 ];
 
 function Field({ label, hint, children }) {
@@ -124,6 +124,11 @@ export default function AdminSettings() {
                         style={{ padding: '12px 20px', borderRadius: 10, border: local.template === 'borcelle' ? '2px solid var(--gold)' : '1px solid #ddd', cursor: 'pointer', background: local.template === 'borcelle' ? '#fdf8f0' : '#fff', fontWeight: 600, fontSize: 14, display: 'flex', flexDirection: 'column', gap: 4 }}>
                         📋 Éditorial (Borcelle)
                         <span style={{ fontSize: 11, color: '#666', fontWeight: 400 }}>Menu élégant style magazine, crème & serif</span>
+                    </button>
+                    <button onClick={() => update('template', 'fastbite')}
+                        style={{ padding: '12px 20px', borderRadius: 10, border: local.template === 'fastbite' ? '2px solid #e8362d' : '1px solid #ddd', cursor: 'pointer', background: local.template === 'fastbite' ? '#1a1010' : '#fff', color: local.template === 'fastbite' ? '#ffc91f' : '#333', fontWeight: 600, fontSize: 14, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                        ⚡ Fastbite (Burger / Fast-food)
+                        <span style={{ fontSize: 11, color: local.template === 'fastbite' ? '#9a97a3' : '#666', fontWeight: 400 }}>Dark mode, style fast-food & burgers</span>
                     </button>
                 </div>
             </section>
@@ -239,6 +244,29 @@ export default function AdminSettings() {
                                 <div>
                                     <div style={{ fontSize: 13, fontWeight: 600, color: '#444' }}>{label}</div>
                                     <div style={{ fontSize: 11, color: '#aaa', fontFamily: 'monospace' }}>{local[key] || ''}</div>
+                                </div>
+                            </div>
+                        ))}
+                    </section>
+                )}
+
+                {/* COLORS - Fastbite (Only shown if fastbite template selected) */}
+                {local.template === 'fastbite' && (
+                    <section style={{ background: '#17161a', borderRadius: 14, border: '2px solid #e8362d', padding: 22 }}>
+                        <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 4, color: '#ffc91f', fontFamily: 'Bebas Neue, cursive', letterSpacing: '0.05em' }}>⚡ COULEURS — THÈME FASTBITE</h3>
+                        <p style={{ fontSize: 12, color: '#9a97a3', marginBottom: 16 }}>Ces couleurs s'appliquent uniquement au thème "Fastbite".</p>
+                        {[
+                            { key: 'fbRed', label: 'Couleur principale (boutons, bordures, hover)' },
+                            { key: 'fbYellow', label: 'Couleur d\'accent (prix, cart, CTA secondaires)' },
+                            { key: 'fbDark', label: 'Fond sombre principal' },
+                            { key: 'fbCard', label: 'Fond des cartes produit' },
+                        ].map(({ key, label }) => (
+                            <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                                <input type="color" value={local[key] || '#000000'} onChange={e => update(key, e.target.value)}
+                                    style={{ width: 44, height: 44, borderRadius: 8, border: '1px solid #333', padding: 2, cursor: 'pointer', background: 'transparent' }} />
+                                <div>
+                                    <div style={{ fontSize: 13, fontWeight: 600, color: '#ffffff' }}>{label}</div>
+                                    <div style={{ fontSize: 11, color: '#9a97a3', fontFamily: 'monospace' }}>{local[key] || ''}</div>
                                 </div>
                             </div>
                         ))}
