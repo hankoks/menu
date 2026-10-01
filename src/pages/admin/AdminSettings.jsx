@@ -9,12 +9,12 @@ const FONT_OPTIONS = [
 ];
 
 const PRESET_THEMES = [
-    { label: '🌿 Jardin (défaut)', accentColor: '#c9a86a', accentDark: '#b08f52', darkBg: '#1a1f24', darkBg2: '#11151a', bodyBg: '#f3efe7' },
-    { label: '🔴 Rouge Signature', accentColor: '#c0392b', accentDark: '#96281b', darkBg: '#1c1010', darkBg2: '#120a0a', bodyBg: '#fdf5f5' },
-    { label: '🔵 Bleu Méditerranée', accentColor: '#2980b9', accentDark: '#1a6fa6', darkBg: '#0d1b2a', darkBg2: '#0a1520', bodyBg: '#f0f4f8' },
-    { label: '🟣 Violet Royal', accentColor: '#8e44ad', accentDark: '#6c3483', darkBg: '#1b0d2a', darkBg2: '#120820', bodyBg: '#f5f0fb' },
-    { label: '⚫ Noir Luxe', accentColor: '#e5c46b', accentDark: '#c9a84a', darkBg: '#000000', darkBg2: '#0a0a0a', bodyBg: '#f0ede8' },
-    { label: '🟢 Vert Nature', accentColor: '#27ae60', accentDark: '#1e8449', darkBg: '#0d1f14', darkBg2: '#091409', bodyBg: '#f0f8f2' },
+    { label: '🌿 Jardin (défaut)', accentColor: '#c9a86a', accentDark: '#b08f52', darkBg: '#1a1f24', darkBg2: '#11151a', bodyBg: '#f3efe7', asiaAccent: '#c9a86a', asiaDark: '#1a1f24', asiaBg: '#f6f1e7', asiaText: '#2e3a52', bcTerra: '#c9a86a', bcInk: '#1a1f24', bcCream: '#faf4ec', bcPaper: '#f3ead9' },
+    { label: '🔴 Rouge Signature', accentColor: '#c0392b', accentDark: '#96281b', darkBg: '#1c1010', darkBg2: '#120a0a', bodyBg: '#fdf5f5', asiaAccent: '#c0392b', asiaDark: '#1c1010', asiaBg: '#fdf5f5', asiaText: '#1c1010', bcTerra: '#c0392b', bcInk: '#1c1010', bcCream: '#fdf5f5', bcPaper: '#f7ebeb' },
+    { label: '🔵 Bleu Méditerranée', accentColor: '#2980b9', accentDark: '#1a6fa6', darkBg: '#0d1b2a', darkBg2: '#0a1520', bodyBg: '#f0f4f8', asiaAccent: '#2980b9', asiaDark: '#0d1b2a', asiaBg: '#f0f4f8', asiaText: '#0a1520', bcTerra: '#2980b9', bcInk: '#0d1b2a', bcCream: '#f0f4f8', bcPaper: '#e2e8f0' },
+    { label: '🟣 Violet Royal', accentColor: '#8e44ad', accentDark: '#6c3483', darkBg: '#1b0d2a', darkBg2: '#120820', bodyBg: '#f5f0fb', asiaAccent: '#8e44ad', asiaDark: '#1b0d2a', asiaBg: '#f5f0fb', asiaText: '#120820', bcTerra: '#8e44ad', bcInk: '#1b0d2a', bcCream: '#f5f0fb', bcPaper: '#f1e6f9' },
+    { label: '⚫ Noir Luxe', accentColor: '#e5c46b', accentDark: '#c9a84a', darkBg: '#000000', darkBg2: '#0a0a0a', bodyBg: '#f0ede8', asiaAccent: '#e5c46b', asiaDark: '#000000', asiaBg: '#f0ede8', asiaText: '#0a0a0a', bcTerra: '#e5c46b', bcInk: '#080808', bcCream: '#f0ede8', bcPaper: '#e2ded9' },
+    { label: '🟢 Vert Nature', accentColor: '#27ae60', accentDark: '#1e8449', darkBg: '#0d1f14', darkBg2: '#091409', bodyBg: '#f0f8f2', asiaAccent: '#27ae60', asiaDark: '#0d1f14', asiaBg: '#f0f8f2', asiaText: '#091409', bcTerra: '#27ae60', bcInk: '#0d1f14', bcCream: '#f0f8f2', bcPaper: '#e2f2e7' },
 ];
 
 function Field({ label, hint, children }) {
@@ -211,11 +211,34 @@ export default function AdminSettings() {
                             { key: 'asiaText', label: 'Couleur du texte principal' },
                         ].map(({ key, label }) => (
                             <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-                                <input type="color" value={local[key]} onChange={e => update(key, e.target.value)}
+                                <input type="color" value={local[key] || '#000000'} onChange={e => update(key, e.target.value)}
                                     style={{ width: 44, height: 44, borderRadius: 8, border: '1px solid #ddd', padding: 2, cursor: 'pointer' }} />
                                 <div>
                                     <div style={{ fontSize: 13, fontWeight: 600, color: '#444' }}>{label}</div>
-                                    <div style={{ fontSize: 11, color: '#aaa', fontFamily: 'monospace' }}>{local[key]}</div>
+                                    <div style={{ fontSize: 11, color: '#aaa', fontFamily: 'monospace' }}>{local[key] || ''}</div>
+                                </div>
+                            </div>
+                        ))}
+                    </section>
+                )}
+
+                {/* COLORS - Borcelle Editorial (Only shown if borcelle template selected) */}
+                {local.template === 'borcelle' && (
+                    <section style={{ background: '#fcfaf6', borderRadius: 14, border: '2px solid #c2603e', padding: 22 }}>
+                        <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 4 }}>📋 Couleurs — Thème Éditorial (Borcelle)</h3>
+                        <p style={{ fontSize: 12, color: '#888', marginBottom: 16 }}>Ces couleurs s'appliquent uniquement au thème "Éditorial (Borcelle)".</p>
+                        {[
+                            { key: 'bcTerra', label: 'Couleur principale (boutons d\'action, accents)' },
+                            { key: 'bcInk', label: 'Couleur du texte principal & Header' },
+                            { key: 'bcCream', label: 'Couleur de fond général' },
+                            { key: 'bcPaper', label: 'Couleur des cartes / feuilles' },
+                        ].map(({ key, label }) => (
+                            <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                                <input type="color" value={local[key] || '#000000'} onChange={e => update(key, e.target.value)}
+                                    style={{ width: 44, height: 44, borderRadius: 8, border: '1px solid #ddd', padding: 2, cursor: 'pointer' }} />
+                                <div>
+                                    <div style={{ fontSize: 13, fontWeight: 600, color: '#444' }}>{label}</div>
+                                    <div style={{ fontSize: 11, color: '#aaa', fontFamily: 'monospace' }}>{local[key] || ''}</div>
                                 </div>
                             </div>
                         ))}
