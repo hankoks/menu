@@ -879,3 +879,198 @@
 .asia-toast.show {
     transform: translate(-50%, 0);
 }
+
+/* ====== MOBILE OPTIMIZATIONS (max-width: 480px) ====== */
+@media (max-width: 480px) {
+
+    /* Header: tighter padding, bigger touch targets */
+    .asia-header {
+        padding: 16px 16px 8px;
+    }
+
+    .asia-avatar {
+        width: 44px;
+        height: 44px;
+        font-size: 1.3rem;
+    }
+
+    .asia-cart-btn {
+        font-size: 1.5rem;
+    }
+
+    .asia-cart-n {
+        width: 20px;
+        height: 20px;
+        font-size: .72rem;
+        top: -9px;
+        right: -10px;
+    }
+
+    /* Search: full width, good hit area */
+    .asia-search {
+        margin: 10px 14px 4px;
+        padding: 13px 16px;
+    }
+
+    /* Cats: bigger emoji & text */
+    .asia-cats {
+        padding: 12px 14px;
+        gap: 10px;
+    }
+
+    .asia-cat {
+        padding: 12px 16px;
+        font-size: .78rem;
+    }
+
+    .asia-cat .ic {
+        font-size: 1.5rem;
+    }
+
+    /* Section title */
+    .asia-section-title {
+        font-size: 1.35rem;
+        padding: 4px 0 10px;
+    }
+
+    /* Grid: single column on very narrow, 2-col otherwise */
+    .asia-scroll {
+        padding: 0 14px 100px;
+    }
+
+    .asia-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+
+    /* Cards: taller image for better visual */
+    .asia-dish-img img {
+        height: 130px;
+    }
+
+    .asia-dish-body {
+        padding: 10px 12px 12px;
+    }
+
+    .asia-dish-name {
+        font-size: .95rem;
+    }
+
+    .asia-dish-desc {
+        font-size: .70rem;
+        -webkit-line-clamp: 2;
+    }
+
+    .asia-dish-foot {
+        margin-top: 8px;
+    }
+
+    .asia-arrow {
+        width: 30px;
+        height: 30px;
+        font-size: .9rem;
+    }
+
+    /* Product detail screen */
+    .asia-p-top {
+        padding: 44px 16px 8px;
+    }
+
+    .asia-p-img {
+        padding: 0 16px;
+    }
+
+    .asia-p-img img {
+        height: 230px;
+    }
+
+    .asia-p-name {
+        font-size: 1.7rem;
+        margin-top: 14px;
+    }
+
+    .asia-p-stats {
+        margin: 12px 16px 0;
+        font-size: .8rem;
+    }
+
+    .asia-p-desc {
+        padding: 14px 18px 0;
+        font-size: .83rem;
+    }
+
+    .asia-p-ing {
+        padding: 10px 18px 0;
+    }
+
+    .asia-p-bottom {
+        padding: 18px 18px 28px;
+        padding-bottom: max(28px, env(safe-area-inset-bottom, 28px));
+    }
+
+    .asia-p-price {
+        font-size: 1.8rem;
+    }
+
+    .asia-qty {
+        flex: 0 0 120px;
+    }
+
+    .asia-order-btn {
+        font-size: .82rem;
+    }
+
+    /* Cart bar: full width & safe area */
+    .asia-floating-cart {
+        padding: 16px 20px max(20px, env(safe-area-inset-bottom, 20px));
+        border-radius: 18px 18px 0 0;
+    }
+
+    .asia-floating-cart .asi-fc-right {
+        font-size: 1rem;
+    }
+
+    /* Cart panel */
+    .asia-cart-panel {
+        max-height: 88%;
+        padding: 26px 18px max(30px, env(safe-area-inset-bottom, 30px));
+    }
+
+    .asia-cart-item-img {
+        width: 56px;
+        height: 56px;
+    }
+
+    .asia-cart-checkout {
+        height: 54px;
+        font-size: 1.05rem;
+    }
+
+    /* Toast: sticky position fixed */
+    .asia-toast {
+        position: fixed;
+        bottom: 90px;
+        left: 50%;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+    .asia-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .asia-dish-img img {
+        height: 110px;
+    }
+
+    .asia-dish-name {
+        font-size: .88rem;
+    }
+
+    .asia-cat {
+        padding: 10px 12px;
+        font-size: .73rem;
+    }
+}

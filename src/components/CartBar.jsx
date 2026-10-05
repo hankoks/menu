@@ -10,21 +10,17 @@ export default function CartBar() {
     if (location.pathname.startsWith('/cart') || location.pathname.startsWith('/order')) return null;
 
     return (
-        <div className="cart-bar" style={{ gap: 12 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 18, flex: 1, minWidth: 0 }}>
-                <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                    <span style={{ fontSize: 24, lineHeight: 1 }}>🛒</span>
-                    <span className="cart-count" style={{ position: 'absolute', top: -8, right: -12, border: '2px solid var(--dark2)', background: '#dc2626', color: '#fff', fontSize: 11, fontWeight: 800 }}>
-                        {cartCount}
-                    </span>
+        <Link to="/cart" className="cart-bar" aria-label="Voir le panier">
+            <div className="cart-bar-left">
+                <div className="cart-bar-icon">
+                    <span>🛒</span>
+                    <span className="cart-count">{cartCount}</span>
                 </div>
-                <div className="cart-total" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {cartTotal.toLocaleString('fr-FR')} DH
-                </div>
+                <span className="cart-bar-label">Voir le panier</span>
             </div>
-            <Link to="/cart" className="cart-btn" style={{ flexShrink: 0 }}>
-                Panier <span aria-hidden="true">→</span>
-            </Link>
-        </div>
+            <div className="cart-bar-total">
+                {cartTotal.toLocaleString('fr-FR')} DH →
+            </div>
+        </Link>
     );
 }

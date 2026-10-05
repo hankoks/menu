@@ -4,11 +4,18 @@ import { useAppContext } from '../context/AppContext';
 export default function Hero() {
     const { branding } = useAppContext();
     return (
-        <section className="hero" style={branding.heroImage ? { backgroundImage: `url(${branding.heroImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}>
-            <div className="hero-content">
-                <div className="overline">BIENVENUE AU</div>
-                <h2 style={{ fontFamily: branding.fontHeading }}>{branding.name}</h2>
-                <p>{branding.tagline}</p>
+        <section
+            className="mob-hero"
+            style={branding.heroImage
+                ? { backgroundImage: `url(${branding.heroImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+                : {}}
+        >
+            <div className="mob-hero-content">
+                <div className="mob-hero-overline">BIENVENUE AU</div>
+                <h2 className="mob-hero-name" style={{ fontFamily: branding.fontHeading }}>
+                    {branding.name}
+                </h2>
+                <p className="mob-hero-tagline">{branding.tagline}</p>
             </div>
         </section>
     );

@@ -1,39 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { Search } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 
 export default function Header() {
     const { language, setLanguage, table, branding } = useAppContext();
+    const [langOpen, setLangOpen] = useState(false);
 
     return (
-        <header>
-            <Link to="/" className="logo">
+        <header className="site-header">
+            {/* ── Left: Table chip ── */}
+            <div className="sh-left">
+                <span className="sh-table">🪑 {table}</span>
+            </div>
+
+            {/* ── Center: Logo ── */}
+            <Link to="/" className="sh-logo">
                 {branding.logoImage ? (
-                    <img src={branding.logoImage} alt="Logo" style={{ height: 44, width: 'auto', maxHeight: 44, objectFit: 'contain' }} />
+                    <img src={branding.logoImage} alt="Logo" className="sh-logo-img" />
                 ) : (
-                    <div className="logo-badge">{branding.logoEmoji}</div>
+                    <div className="sh-logo-badge">{branding.logoEmoji}</div>
                 )}
-                <div className="logo-text">
+                <div className="sh-logo-text">
                     <h1 style={{ fontFamily: branding.fontHeading }}>{branding.name}</h1>
                     <span>{branding.subtitle}</span>
                 </div>
             </Link>
 
-            <nav>
-                <NavLink to="/" className={({ isActive }) => isActive ? 'active' : ''}>Menu</NavLink>
-                <NavLink to="/about" className={({ isActive }) => isActive ? 'active' : ''}>À propos</NavLink>
-                <NavLink to="/contact" className={({ isActive }) => isActive ? 'active' : ''}>Contact</NavLink>
-            </nav>
-
-            <div className="header-right">
-                <div className="langs">
-                    <span className={language === 'FR' ? 'on' : ''} onClick={() => setLanguage('FR')}>FR</span>
-                    <span className={language === 'AR' ? 'on' : ''} onClick={() => setLanguage('AR')}>AR</span>
-                    <span className={language === 'EN' ? 'on' : ''} onClick={() => setLanguage('EN')}>EN</span>
+            {/* ── Right: Language ── */}
+            <div className="sh-right">
+                <div className="sh-langs">
+                    {['FR', 'AR', 'EN'].map(l => (
+                        <button
+                            key={l}
+                            className={`sh-lang-btn${language === l ? ' on' : ''}`}
+                            onClick={() => setLanguage(l)}
+                        >
+                            {l}
+                        </button>
+                    ))}
                 </div>
-                <Search className="search-icon" size={18} />
-                <button className="table-btn">🪑 Table {table}</button>
             </div>
         </header>
     );

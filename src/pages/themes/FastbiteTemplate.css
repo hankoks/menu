@@ -184,7 +184,6 @@
 .fb-hero h1 .fb-stroke {
     color: transparent;
     -webkit-text-stroke: 2px var(--fb-yellow);
-    text-stroke: 2px var(--fb-yellow);
 }
 
 .fb-hero h1 .fb-red-text {
@@ -1066,4 +1065,243 @@
     justify-content: center;
     font-size: 2.6rem;
     margin-bottom: 14px;
+}
+
+/* ====== MOBILE OPTIMIZATIONS ====== */
+@media (max-width: 480px) {
+
+    /* Header */
+    .fb-header {
+        padding: 12px 16px;
+    }
+
+    .fb-logo {
+        font-size: 1.7rem;
+    }
+
+    .fb-cart-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 1.35rem;
+        border-radius: 16px;
+    }
+
+    /* Hero: compact on mobile */
+    .fb-hero {
+        padding: 36px 16px 18px;
+    }
+
+    .fb-hero h1 {
+        font-size: clamp(3rem, 14vw, 5rem);
+    }
+
+    .fb-hero p {
+        font-size: .88rem;
+        margin-top: 12px;
+    }
+
+    .fb-hero-tag {
+        font-size: .88rem;
+        padding: 5px 12px;
+        margin-bottom: 14px;
+    }
+
+    /* Marquee */
+    .fb-marquee {
+        margin: 24px -16px;
+    }
+
+    /* Categories */
+    .fb-cats {
+        padding: 18px 16px 10px;
+        gap: 10px;
+    }
+
+    .fb-cat {
+        padding: 10px 16px;
+        font-size: .8rem;
+    }
+
+    .fb-cat span {
+        font-size: 1.15rem;
+    }
+
+    /* Section */
+    .fb-section {
+        padding: 24px 16px 8px;
+    }
+
+    .fb-sec-title {
+        font-size: 1.9rem;
+    }
+
+    /* Combos scrollable strip: narrower cards */
+    .fb-combos {
+        padding: 10px 16px 20px;
+        gap: 14px;
+    }
+
+    .fb-combo {
+        flex: 0 0 260px;
+        min-width: 260px;
+    }
+
+    .fb-combo-img {
+        height: 150px;
+    }
+
+    .fb-combo-name {
+        font-size: 1.4rem;
+    }
+
+    .fb-combo-price {
+        font-size: 1.7rem;
+    }
+
+    /* Product grid: 2 columns on mobile */
+    .fb-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+
+    .fb-p-img {
+        height: 140px;
+    }
+
+    .fb-p-emoji {
+        font-size: 3rem;
+    }
+
+    .fb-p-body {
+        padding: 12px 14px 14px;
+    }
+
+    .fb-p-name {
+        font-size: .92rem;
+    }
+
+    .fb-p-desc {
+        font-size: .7rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .fb-p-price {
+        font-size: 1.4rem;
+    }
+
+    /* Order bar: safe area aware */
+    .fb-order-bar {
+        bottom: 0;
+        border-radius: 20px 20px 0 0;
+        padding: 14px 18px max(18px, env(safe-area-inset-bottom, 18px));
+        width: 100%;
+        left: 0;
+        transform: translateY(100%);
+    }
+
+    .fb-order-bar.show {
+        transform: translateY(0);
+    }
+
+    .fb-ob-btn {
+        padding: 12px 18px;
+        font-size: 1.05rem;
+    }
+
+    /* Product sheet */
+    .fb-sheet {
+        padding: 14px 18px max(28px, env(safe-area-inset-bottom, 28px));
+        max-height: 95vh;
+    }
+
+    .fb-sheet-img {
+        height: 190px;
+    }
+
+    .fb-sheet-name {
+        font-size: 2rem;
+    }
+
+    .fb-sheet-foot {
+        padding-bottom: max(14px, env(safe-area-inset-bottom, 14px));
+    }
+
+    .fb-big-add {
+        height: 52px;
+        font-size: 1.15rem;
+    }
+
+    /* Cart panel */
+    .fb-cart-head {
+        padding: 16px 18px 12px;
+    }
+
+    .fb-cart-panel {
+        height: 95vh;
+    }
+
+    .fb-cart-items {
+        padding: 16px 18px;
+    }
+
+    .fb-cart-summary {
+        padding: 16px 18px max(24px, env(safe-area-inset-bottom, 24px));
+    }
+
+    .fb-cart-checkout {
+        height: 58px;
+        font-size: 1.25rem;
+    }
+
+    /* Toast */
+    .fb-toast {
+        top: auto;
+        bottom: 90px;
+        transform: translate(-50%, 80px);
+        max-width: 85vw;
+        white-space: normal;
+        text-align: center;
+    }
+
+    .fb-toast.show {
+        transform: translate(-50%, 0);
+    }
+
+    /* Footer */
+    .fb-footer {
+        padding: 40px 16px 100px;
+    }
+
+    .fb-footer .fb-logo {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .fb-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .fb-p-img {
+        height: 120px;
+    }
+
+    .fb-combo {
+        flex: 0 0 240px;
+        min-width: 240px;
+    }
+
+    .fb-p-name {
+        font-size: .85rem;
+    }
+
+    .fb-cat {
+        padding: 9px 12px;
+        font-size: .75rem;
+    }
 }
