@@ -110,6 +110,12 @@
     z-index: 0;
 }
 
+@media (max-width: 768px) {
+    .bc-circle {
+        display: none;
+    }
+}
+
 .bc-c1 {
     width: 420px;
     height: 420px;

@@ -26,6 +26,15 @@ h6 {
   font-family: var(--font-heading, inherit);
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 body {
   background: #f3efe7;
   color: var(--text);
