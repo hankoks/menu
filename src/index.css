@@ -2989,12 +2989,12 @@ main {
   color: #111315;
 }
 
-/* ── Grid: 2 columns mobile-first ── */
+/* ── Grid: Full-Width fluid cards on mobile ── */
 .mag-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  padding: 12px 10px;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 12px 16px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -3016,10 +3016,12 @@ main {
   transform: scale(0.97);
 }
 
-/* ── Image area: compact on mobile ── */
+/* ── Image area: fluid aspect ratio on mobile ── */
 .mag-card-img {
   position: relative;
-  height: 160px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   display: flex;
   align-items: center;

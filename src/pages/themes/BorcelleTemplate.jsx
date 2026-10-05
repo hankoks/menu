@@ -170,11 +170,10 @@ export default function BorcelleTemplate() {
                                         <div
                                             key={d.id}
                                             className="bc-item"
-                                            style={isMobile ? { gridTemplateColumns: '90px 1fr auto', gap: '12px', alignItems: 'center', padding: '14px 0' } : {}}
                                             onClick={() => openProduct(d)}
                                         >
-                                            <div className="bc-it-img" style={isMobile ? { width: '90px', height: '90px', borderRadius: '12px', padding: 0 } : {}}>
-                                                <img src={img} alt={d.name} loading="lazy" style={isMobile ? { borderRadius: '10px' } : {}} />
+                                            <div className="bc-it-img">
+                                                <img src={img} alt={d.name} loading="lazy" />
                                             </div>
                                             <div className="bc-it-body">
                                                 <div className="bc-it-top">

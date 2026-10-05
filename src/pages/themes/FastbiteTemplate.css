@@ -1160,14 +1160,17 @@
         font-size: 1.7rem;
     }
 
-    /* Product grid: 2 columns on mobile */
+    /* Product grid: Full width fluid card on mobile */
     .fb-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 14px;
+        grid-template-columns: 1fr;
+        gap: 16px;
     }
 
     .fb-p-img {
-        height: 140px;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
     }
 
     .fb-p-emoji {
@@ -1280,30 +1283,5 @@
 
     .fb-footer .fb-logo {
         font-size: 2rem;
-    }
-}
-
-@media (max-width: 360px) {
-    .fb-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-    }
-
-    .fb-p-img {
-        height: 120px;
-    }
-
-    .fb-combo {
-        flex: 0 0 240px;
-        min-width: 240px;
-    }
-
-    .fb-p-name {
-        font-size: .85rem;
-    }
-
-    .fb-cat {
-        padding: 9px 12px;
-        font-size: .75rem;
     }
 }
