@@ -305,18 +305,19 @@
 }
 
 /* ========================================
-   DESKTOP: editorial list layout (≥701px)
+   MOBILE DEFAULT: single column list
+   Desktop ≥900px: 2-column editorial
    ======================================== */
 .bc-items {
     display: grid;
-    gap: 0 60px;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    gap: 0;
 }
 
-/* single-column on mid-sizes before 2-col kicks in */
-@media (max-width: 900px) {
+@media (min-width: 900px) {
     .bc-items {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 60px;
     }
 }
 
