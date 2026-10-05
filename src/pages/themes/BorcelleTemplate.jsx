@@ -13,6 +13,7 @@ export default function BorcelleTemplate() {
     const [cartOpen, setCartOpen] = useState(false);
     const [toastMsg, setToastMsg] = useState('');
     const [isToastVisible, setIsToastVisible] = useState(false);
+    const [isMobile, setIsMobile] = useState(() => window.innerWidth < 700);
 
     const itemsRef = useRef([]);
 
@@ -25,6 +26,13 @@ export default function BorcelleTemplate() {
             link.rel = 'stylesheet';
             document.head.appendChild(link);
         }
+    }, []);
+
+    // Mobile detection — update on resize
+    useEffect(() => {
+        const handler = () => setIsMobile(window.innerWidth < 700);
+        window.addEventListener('resize', handler);
+        return () => window.removeEventListener('resize', handler);
     }, []);
 
     // IntersectionObserver for scroll-reveal
@@ -162,11 +170,11 @@ export default function BorcelleTemplate() {
                                         <div
                                             key={d.id}
                                             className="bc-item"
-                                            style={{ transitionDelay: `${i * 0.07}s` }}
+                                            style={isMobile ? { gridTemplateColumns: '90px 1fr auto', gap: '12px', alignItems: 'center', padding: '14px 0' } : {}}
                                             onClick={() => openProduct(d)}
                                         >
-                                            <div className="bc-it-img">
-                                                <img src={img} alt={d.name} loading="lazy" />
+                                            <div className="bc-it-img" style={isMobile ? { width: '90px', height: '90px', borderRadius: '12px', padding: 0 } : {}}>
+                                                <img src={img} alt={d.name} loading="lazy" style={isMobile ? { borderRadius: '10px' } : {}} />
                                             </div>
                                             <div className="bc-it-body">
                                                 <div className="bc-it-top">
