@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import './MorocainTemplate.css';
 import '@fontsource/amiri';
@@ -14,26 +14,16 @@ export default function MorocainTemplate() {
     const [cartOpen, setCartOpen] = useState(false);
     const [toastMsg, setToastMsg] = useState('');
     const [isToastVisible, setIsToastVisible] = useState(false);
-    const [isMobile, setIsMobile] = useState(() => window.innerWidth < 700);
-
-    const itemsRef = useRef([]);
 
     // Load Google Fonts once
     useEffect(() => {
-        if (!document.getElementById('borcelle-fonts')) {
+        if (!document.getElementById('mc-fonts')) {
             const link = document.createElement('link');
-            link.id = 'borcelle-fonts';
-            link.href = 'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=Jost:wght@300;400;500&display=swap';
+            link.id = 'mc-fonts';
+            link.href = 'https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap';
             link.rel = 'stylesheet';
             document.head.appendChild(link);
         }
-    }, []);
-
-    // Mobile detection â€” update on resize
-    useEffect(() => {
-        const handler = () => setIsMobile(window.innerWidth < 700);
-        window.addEventListener('resize', handler);
-        return () => window.removeEventListener('resize', handler);
     }, []);
 
     // IntersectionObserver for scroll-reveal
@@ -50,7 +40,6 @@ export default function MorocainTemplate() {
         return () => observer.disconnect();
     }, [currentCat, menu]);
 
-    // Helpers
     const showToast = (msg) => {
         setToastMsg(msg);
         setIsToastVisible(true);
@@ -81,7 +70,7 @@ export default function MorocainTemplate() {
 
     const handleAddToCart = () => {
         if (!selectedProduct) return;
-        if (!canAdd) { showToast('âš ï¸ Choisissez une taille d\'abord.'); return; }
+        if (!canAdd) { showToast('Choisissez une taille d\'abord.'); return; }
         const cartItem = {
             ...selectedProduct,
             price: unitPrice,
@@ -89,28 +78,22 @@ export default function MorocainTemplate() {
             selectedExtras: selectedExtras.length > 0 ? [...selectedExtras] : undefined,
         };
         for (let i = 0; i < qty; i++) addToCart(cartItem);
-        showToast(`âœ“ ${qty}Ã— ${selectedProduct.name} ajoutÃ©`);
+        showToast(`${qty}x ${selectedProduct.name} ajoute`);
         setSelectedProduct(null);
     };
 
     const handleCheckout = () => {
         saveOrder('Commande Marocain');
         setCartOpen(false);
-        showToast('ðŸŽ‰ Commande validÃ©e !');
+        showToast('Commande validee !');
     };
 
-    // Build category list from real menu
     const catList = ['all', ...new Set(menu.map(i => i.category).filter(Boolean))];
-
-    // Filter + group items by category
     const filteredMenu = menu.filter(d => currentCat === 'all' || d.category === currentCat);
-
-    // Group items by category for editorial section display
     const categoriesInView = currentCat === 'all'
         ? [...new Set(menu.map(i => i.category).filter(Boolean))]
         : [currentCat];
 
-    // Branding CSS vars
     const cssVars = {
         '--mc-terra': branding.mcTerra || '#d4af37',
         '--mc-ink': branding.mcInk || '#132e18',
@@ -119,28 +102,29 @@ export default function MorocainTemplate() {
         '--mc-muted': branding.bcMuted || '#8a7f70',
         '--mc-olive': branding.bcOlive || '#6b7250',
         '--mc-gold': branding.bcGold || '#b98a3c',
-        '--mc-terra-soft': 'rgba(194, 96, 62, .12)',
+        '--mc-terra-soft': 'rgba(212, 175, 55, .12)',
     };
-
-    const [namePart1, ...nameParts] = (branding.name || 'Le Jardin').split(' ');
-    const namePart2 = nameParts.join(' ');
 
     return (
         <div className="mc-root" style={cssVars}>
 
-            {/* ========== HERO ========== */}
+            {/* HERO */}
             <section className="mc-hero">
                 <div className="mc-hero-media">
-                    <img src={branding.heroImage || 'https://images.unsplash.com/photo-1541363654512-5cb0ef7df590?auto=format&fit=crop&w=600&q=80'} alt="Hero" loading="lazy" />
+                    <img
+                        src={branding.heroImage || 'https://images.unsplash.com/photo-1541363654512-5cb0ef7df590?auto=format&fit=crop&w=600&q=80'}
+                        alt="Hero"
+                        loading="lazy"
+                    />
                 </div>
                 <div className="mc-hero-content">
                     <div className="mc-hero-subtitle">{branding.subtitle || 'Restaurant'}</div>
                     <h1 className="mc-hero-title">{branding.name || 'Le Riad'}</h1>
-                    <p className="mc-hero-desc">{branding.tagline || 'Une évasion culinaire marocaine authentique.'}</p>
+                    <p className="mc-hero-desc">{branding.tagline || 'Une evasion culinaire marocaine authentique.'}</p>
                 </div>
             </section>
 
-            {/* ========== STICKY CATEGORY TABS ========== */}
+            {/* STICKY CATEGORY TABS */}
             <nav className="mc-tabs">
                 {catList.map(c => (
                     <button key={c} className={`mc-tab ${currentCat === c ? 'active' : ''}`} onClick={() => setCurrentCat(c)}>
@@ -149,7 +133,7 @@ export default function MorocainTemplate() {
                 ))}
             </nav>
 
-            {/* ========== MENU EDITORIAL GRID ========== */}
+            {/* MENU GRID */}
             <main className="mc-menu" id="mc-menu">
                 {categoriesInView.map((cat, catIdx) => {
                     const items = filteredMenu.filter(d => d.category === cat);
@@ -164,15 +148,11 @@ export default function MorocainTemplate() {
                                 <span className="mc-sec-note">{items.length} plat{items.length > 1 ? 's' : ''}</span>
                             </div>
                             <div className="mc-items">
-                                {items.map((d, i) => {
-                                    const img = d.images?.[0] || `https://placehold.co/64x64/f3ead9/8a7f70?text=${encodeURIComponent(d.name[0])}`;
+                                {items.map((d) => {
+                                    const img = d.images?.[0] || `https://placehold.co/90x90/f5f0e6/8a7f70?text=${encodeURIComponent(d.name[0])}`;
                                     const isNew = d.badge?.text === 'Nouveau';
                                     return (
-                                        <div
-                                            key={d.id}
-                                            className="mc-item"
-                                            onClick={() => openProduct(d)}
-                                        >
+                                        <div key={d.id} className="mc-item" onClick={() => openProduct(d)}>
                                             <div className="mc-it-img">
                                                 <img src={img} alt={d.name} loading="lazy" />
                                             </div>
@@ -185,7 +165,7 @@ export default function MorocainTemplate() {
                                                 {(d.badge || d.extras?.length) && (
                                                     <div className="mc-it-tags">
                                                         {d.badge && <span className={`mc-it-tag ${isNew ? 'new' : ''}`}>{d.badge.text}</span>}
-                                                        {d.extras?.length > 0 && <span className="mc-it-tag">+ SupplÃ©ments</span>}
+                                                        {d.extras?.length > 0 && <span className="mc-it-tag">+ Supplements</span>}
                                                         {d.hasVariants && <span className="mc-it-tag">Plusieurs tailles</span>}
                                                     </div>
                                                 )}
@@ -198,126 +178,135 @@ export default function MorocainTemplate() {
                         </div>
                     );
                 })}
-                {filteredMenu.length === 0 && <div className="mc-empty">ðŸ˜• Aucun plat trouvÃ© pour cette catÃ©gorie.</div>}
+                {filteredMenu.length === 0 && <div className="mc-empty">Aucun plat trouve pour cette categorie.</div>}
             </main>
 
-            {/* ========== FOOTER ========== */}
+            {/* FOOTER */}
             <footer className="mc-footer">
-                <div className="mc-footer-logo">
-                    {namePart1}<span>{namePart2 ? ` ${namePart2}` : ''}</span>
-                </div>
+                <div className="mc-footer-logo">{branding.name || 'Le Riad'}</div>
                 <p>{branding.tagline || ''}</p>
-                <p style={{ marginTop: 8 }}>Ouvert tous les jours Â· 12h â€” 23h</p>
+                <p style={{ marginTop: 8 }}>Ouvert tous les jours - 12h -- 23h</p>
             </footer>
 
-            {/* ========== PRODUCT OVERLAY ========== */}
-            <div className={`mc-overlay ${selectedProduct ? 'open' : ''}`} onClick={(e) => { if (e.target === e.currentTarget) setSelectedProduct(null); }}>
-                <div className="mc-sheet">
-                    <button className="mc-close" onClick={() => setSelectedProduct(null)}>âœ•</button>
-                    {selectedProduct && (
-                        <>
-                            <img className="mc-sheet-img" src={selectedProduct.images?.[0] || `https://placehold.co/480x230/f3ead9/8a7f70?text=${encodeURIComponent(selectedProduct.name)}`} alt={selectedProduct.name} />
-                            <h2 className="mc-sheet-name">{selectedProduct.name}</h2>
-                            <div className="mc-sheet-meta">
-                                <span>{selectedProduct.category}</span>
-                                <span>Â·</span>
-                                <span>â™¥ <b>{Math.floor(Math.random() * 300 + 80)}</b></span>
-                            </div>
+            {/* PRODUCT OVERLAY */}
+            {selectedProduct && (
+                <div className="mc-overlay open" onClick={(e) => { if (e.target === e.currentTarget) setSelectedProduct(null); }}>
+                    <div className="mc-sheet">
+                        <div className="mc-sheet-img">
+                            <img
+                                src={selectedProduct.images?.[0] || `https://placehold.co/480x300/f5f0e6/8a7f70?text=${encodeURIComponent(selectedProduct.name)}`}
+                                alt={selectedProduct.name}
+                            />
+                            <button className="mc-sheet-close" onClick={() => setSelectedProduct(null)}>x</button>
+                        </div>
+                        <div className="mc-sheet-head">
+                            <h2 className="mc-sheet-title">{selectedProduct.name}</h2>
+                            <div className="mc-sheet-price">{unitPrice * qty} DH</div>
                             <p className="mc-sheet-desc">{selectedProduct.desc}</p>
-
+                        </div>
+                        <div className="mc-sheet-scroll">
                             {/* Variants */}
                             {hasVariants && (
                                 <>
-                                    <span className="mc-variants-title">Choisissez votre taille</span>
+                                    <p style={{ fontWeight: 600, marginBottom: 10 }}>Choisissez votre taille</p>
                                     {selectedProduct.variants.map((v, i) => (
-                                        <div key={i} className={`mc-variant-row ${selectedVariant?.name === v.name ? 'selected' : ''}`} onClick={() => setSelectedVariant(v)}>
+                                        <div key={i} className={`mc-var-btn ${selectedVariant?.name === v.name ? 'active' : ''}`} onClick={() => setSelectedVariant(v)}>
                                             <span>{v.name}</span>
-                                            <span className="mc-variant-price">{v.price} DH</span>
+                                            <span>{v.price} DH</span>
                                         </div>
                                     ))}
                                 </>
                             )}
-
                             {/* Extras */}
                             {hasExtras && (
                                 <>
-                                    <span className="mc-extras-title">SupplÃ©ments</span>
+                                    <p style={{ fontWeight: 600, margin: '16px 0 10px' }}>Supplements</p>
                                     {selectedProduct.extras.filter(ex => ex.isAvailable !== false).map((ex, i) => {
                                         const checked = !!selectedExtras.find(e => e.name === ex.name);
                                         return (
-                                            <div key={i} className={`mc-extra-row ${checked ? 'selected' : ''}`} onClick={() => toggleExtra(ex)}>
+                                            <div key={i} className={`mc-var-btn ${checked ? 'active' : ''}`} onClick={() => toggleExtra(ex)}>
                                                 <span>{ex.name}</span>
-                                                <span className="mc-extra-price">+{ex.price} DH</span>
+                                                <span>+{ex.price} DH</span>
                                             </div>
                                         );
                                     })}
                                 </>
                             )}
-
-                            <div className="mc-sheet-foot">
-                                <div className="mc-qty">
-                                    <button onClick={() => setQty(q => Math.max(1, q - 1))}>âˆ’</button>
-                                    <span>{qty}</span>
-                                    <button onClick={() => setQty(q => q + 1)}>+</button>
-                                </div>
-                                <button className="mc-add-btn" onClick={handleAddToCart} disabled={!canAdd}>
-                                    {canAdd ? `Ajouter Â· ${unitPrice * qty} DH` : 'Choisir une taille'}
-                                </button>
+                        </div>
+                        {/* Add bar */}
+                        <div className="mc-add-bar">
+                            <div className="mc-qty-ctrl">
+                                <button className="mc-qty-btn" onClick={() => setQty(q => Math.max(1, q - 1))}>-</button>
+                                <span className="mc-qty-num">{qty}</span>
+                                <button className="mc-qty-btn" onClick={() => setQty(q => q + 1)}>+</button>
                             </div>
-                        </>
-                    )}
-                </div>
-            </div>
-
-            {/* ========== CART BAR (fixed) ========== */}
-            {!cartOpen && (
-                <div className="mc-cart-bar" onClick={() => setCartOpen(true)}>
-                    <div className="mc-cart-bar-left">
-                        <div className="mc-cart-count">{cartCount}</div>
-                        <span className="mc-cart-bar-label">{cartCount === 0 ? 'Panier vide' : 'Voir le Panier'}</span>
+                            <button
+                                className="mc-add-submit"
+                                onClick={handleAddToCart}
+                                disabled={!canAdd}
+                                style={{ opacity: canAdd ? 1 : 0.5, cursor: canAdd ? 'pointer' : 'not-allowed' }}
+                            >
+                                <span>{canAdd ? 'Ajouter au panier' : 'Choisir une taille'}</span>
+                                <span>{unitPrice * qty} DH</span>
+                            </button>
+                        </div>
                     </div>
-                    <span className="mc-cart-total">{cartTotal > 0 ? `${cartTotal} DH` : 'â€”'}</span>
                 </div>
             )}
 
-            {/* ========== CART PANEL ========== */}
-            <div className={`mc-cart-overlay ${cartOpen ? 'open' : ''}`} onClick={(e) => { if (e.target === e.currentTarget) setCartOpen(false); }}>
-                <div className="mc-cart-panel">
-                    <div className="mc-cart-head">
-                        <h2>Panier</h2>
-                        <button className="mc-cart-close" onClick={() => setCartOpen(false)}>âœ•</button>
-                    </div>
-                    {cart.length === 0 ? (
-                        <p style={{ color: 'var(--mc-muted)', textAlign: 'center', padding: '30px 0', fontWeight: 300 }}>Votre panier est vide ðŸ›’</p>
-                    ) : (
-                        <>
-                            {cart.map(item => (
-                                <div key={item.cartId} className="mc-cart-item">
-                                    <img src={item.images?.[0] || `https://placehold.co/56x56/f3ead9/8a7f70?text=${encodeURIComponent(item.name[0])}`} alt={item.name} />
-                                    <div>
-                                        <div className="mc-cart-item-name">{item.name}{item.variantName ? ` (${item.variantName})` : ''}</div>
-                                        <div className="mc-cart-item-price">{item.price} DH</div>
-                                    </div>
-                                    <div className="mc-cart-controls">
-                                        <button onClick={() => updateQuantity(item.cartId, -1)}>âˆ’</button>
-                                        <span>{item.quantity}</span>
-                                        <button onClick={() => updateQuantity(item.cartId, 1)}>+</button>
-                                    </div>
-                                </div>
-                            ))}
-                            <div className="mc-cart-summary">
-                                <div>
-                                    <div style={{ fontSize: '.75rem', letterSpacing: '.15em', textTransform: 'uppercase', color: 'var(--mc-muted)' }}>Total</div>
-                                    <div className="mc-cart-summary-total">{cartTotal} DH</div>
-                                </div>
-                                <button className="mc-checkout-btn" onClick={handleCheckout}>Valider</button>
-                            </div>
-                        </>
-                    )}
-                </div>
-            </div>
+            {/* CART FLOAT BUTTON */}
+            {cartCount > 0 && !cartOpen && (
+                <button className="mc-cart-float" onClick={() => setCartOpen(true)}>
+                    <div className="mc-cart-badge">{cartCount}</div>
+                    <span>Voir le Panier</span>
+                    <span>{cartTotal} DH</span>
+                </button>
+            )}
 
-            {/* ========== TOAST ========== */}
+            {/* CART OVERLAY */}
+            {cartOpen && (
+                <div className="mc-overlay open" onClick={(e) => { if (e.target === e.currentTarget) setCartOpen(false); }}>
+                    <div className="mc-sheet">
+                        <div className="mc-sheet-head" style={{ paddingTop: 24 }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <h2 className="mc-sheet-title">Panier</h2>
+                                <button className="mc-sheet-close" onClick={() => setCartOpen(false)} style={{ position: 'static', boxShadow: 'none', background: '#eee' }}>x</button>
+                            </div>
+                        </div>
+                        <div className="mc-sheet-scroll">
+                            {cart.length === 0 ? (
+                                <p style={{ color: 'var(--mc-muted)', textAlign: 'center', padding: '30px 0' }}>Votre panier est vide</p>
+                            ) : (
+                                cart.map(item => (
+                                    <div key={item.cartId} className="mc-cart-item" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0', borderBottom: '1px solid #e5e0d8' }}>
+                                        <img src={item.images?.[0] || `https://placehold.co/56x56/f5f0e6/8a7f70?text=${encodeURIComponent(item.name[0])}`} alt={item.name} style={{ width: 56, height: 56, borderRadius: 8, objectFit: 'cover' }} />
+                                        <div style={{ flex: 1 }}>
+                                            <div style={{ fontWeight: 600 }}>{item.name}{item.variantName ? ` (${item.variantName})` : ''}</div>
+                                            <div style={{ color: 'var(--mc-terra)', fontWeight: 600 }}>{item.price} DH</div>
+                                        </div>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                            <button onClick={() => updateQuantity(item.cartId, -1)} style={{ width: 28, height: 28, borderRadius: '50%', border: '1px solid #ddd', background: '#fff', cursor: 'pointer' }}>-</button>
+                                            <span style={{ fontWeight: 600 }}>{item.quantity}</span>
+                                            <button onClick={() => updateQuantity(item.cartId, 1)} style={{ width: 28, height: 28, borderRadius: '50%', border: '1px solid #ddd', background: '#fff', cursor: 'pointer' }}>+</button>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                        {cart.length > 0 && (
+                            <div className="mc-add-bar">
+                                <div style={{ fontSize: '1rem', fontWeight: 600 }}>Total: {cartTotal} DH</div>
+                                <button className="mc-add-submit" onClick={handleCheckout}>
+                                    <span>Valider la commande</span>
+                                    <span>{cartTotal} DH</span>
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            {/* TOAST */}
             <div className={`mc-toast ${isToastVisible ? 'show' : ''}`}>{toastMsg}</div>
         </div>
     );
