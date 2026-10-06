@@ -1,0 +1,527 @@
+/* MorocainTemplate.css */
+
+.mc-page {
+    background-color: var(--mc-cream);
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20.5V18H0v-2h20v-2H0v-2h40v2H20v2h20v2H20v2.5M0 20h2v20H0V20zm40 0h-2v20h2V20z' fill='%23132e18' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+    min-height: 100vh;
+    font-family: 'Jost', sans-serif;
+    color: var(--mc-ink);
+    padding-bottom: 90px;
+    position: relative;
+}
+
+.mc-header {
+    background: transparent;
+    padding: 24px 24px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.mc-circle {
+    width: 50px;
+    height: 50px;
+    border: 1px solid rgba(19, 46, 24, 0.15);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(4px);
+    transition: transform 0.3s;
+}
+
+.mc-circle:hover {
+    transform: rotate(15deg);
+    background: var(--mc-terra);
+    color: #fff;
+    border-color: var(--mc-terra);
+}
+
+.mc-logo {
+    text-align: center;
+    font-family: 'Amiri', serif;
+}
+
+.mc-logo img {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+}
+
+.mc-logo-fallback {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--mc-ink);
+    letter-spacing: 1px;
+}
+
+.mc-hero {
+    position: relative;
+    padding: 100px 24px 40px;
+    text-align: center;
+}
+
+.mc-hero-media {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto 30px;
+}
+
+/* Moroccan Arch style for Hero image */
+.mc-hero-media img {
+    width: 100%;
+    height: auto;
+    border-radius: 200px 200px 0 0;
+    object-fit: cover;
+    aspect-ratio: 4/5;
+    border: 4px solid var(--mc-terra);
+    padding: 6px;
+    background: var(--mc-paper);
+    transition: transform 0.8s ease;
+}
+
+.mc-hero-media:hover img {
+    transform: scale(1.02);
+}
+
+.mc-hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.mc-hero-subtitle {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    color: var(--mc-terra);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.mc-hero-subtitle::before,
+.mc-hero-subtitle::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--mc-terra);
+}
+
+.mc-hero-title {
+    font-family: 'Amiri', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0 0 16px;
+    color: var(--mc-ink);
+}
+
+.mc-hero-desc {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: rgba(19, 46, 24, 0.7);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Categories Tabs */
+.mc-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    gap: 16px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    background: rgba(245, 240, 230, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(19, 46, 24, 0.08);
+}
+
+.mc-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.mc-tab {
+    background: transparent;
+    border: 1px solid rgba(19, 46, 24, 0.15);
+    border-radius: 4px;
+    padding: 10px 24px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--mc-ink);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mc-tab:hover {
+    border-color: var(--mc-terra);
+    color: var(--mc-terra);
+}
+
+.mc-tab.active {
+    background: var(--mc-terra);
+    color: white;
+    border-color: var(--mc-terra);
+}
+
+/* Menu Grid */
+.mc-menu {
+    padding: 40px 24px 120px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.mc-section-head {
+    margin-bottom: 30px;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+}
+
+.mc-sec-title {
+    font-family: 'Amiri', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--mc-terra);
+    margin: 0;
+}
+
+.mc-sec-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--mc-terra), transparent);
+    opacity: 0.3;
+}
+
+/* Base items row layout */
+.mc-items {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+}
+
+@media (min-width: 900px) {
+    .mc-items {
+        grid-template-columns: 1fr 1fr;
+        gap: 0 60px;
+    }
+}
+
+.mc-item {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(19, 46, 24, 0.08);
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.mc-item:hover {
+    transform: translateX(10px);
+}
+
+.mc-it-img {
+    width: 90px;
+    height: 90px;
+    border-radius: 8px 30px 8px 30px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid var(--mc-paper);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.mc-it-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.mc-item:hover .mc-it-img img {
+    transform: scale(1.1);
+}
+
+.mc-it-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.mc-it-top {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.mc-it-name {
+    font-family: 'Amiri', serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--mc-ink);
+    line-height: 1.2;
+    transition: color 0.2s;
+}
+
+.mc-item:hover .mc-it-name {
+    color: var(--mc-terra);
+}
+
+.mc-it-dots {
+    flex: 1;
+    border-bottom: 1px dotted rgba(19, 46, 24, 0.3);
+    min-width: 20px;
+    position: relative;
+    top: -5px;
+}
+
+.mc-it-price {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--mc-terra);
+}
+
+.mc-it-desc {
+    font-size: 0.9rem;
+    color: rgba(19, 46, 24, 0.6);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 6px;
+    line-height: 1.4;
+}
+
+/* Floating Cart Button */
+.mc-cart-float {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--mc-ink);
+    color: var(--mc-cream);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 28px;
+    border-radius: 4px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    z-index: 100;
+    box-shadow: 0 10px 30px rgba(19, 46, 24, 0.2);
+    transition: all 0.2s;
+}
+
+.mc-cart-float:hover {
+    background: var(--mc-terra);
+    transform: translateX(-50%) translateY(-2px);
+}
+
+.mc-cart-badge {
+    background: var(--mc-terra);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
+/* Custom Overlays and Modals will reuse Borcelle logic but styled elegantly */
+.mc-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(19, 46, 24, 0.6);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.mc-sheet {
+    background: var(--mc-paper);
+    border-radius: 30px 30px 0 0;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.mc-sheet-img {
+    height: 35vh;
+    width: 100%;
+    position: relative;
+}
+
+.mc-sheet-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 30px 30px 0 0;
+}
+
+.mc-sheet-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.mc-sheet-head {
+    padding: 24px;
+    background: var(--mc-paper);
+}
+
+.mc-sheet-title {
+    font-family: 'Amiri', serif;
+    font-size: 2.2rem;
+    margin: 0 0 10px;
+    color: var(--mc-ink);
+    line-height: 1.1;
+}
+
+.mc-sheet-price {
+    font-size: 1.4rem;
+    color: var(--mc-terra);
+    font-weight: 600;
+}
+
+.mc-sheet-desc {
+    font-size: 1rem;
+    color: rgba(19, 46, 24, 0.7);
+    line-height: 1.6;
+    margin-top: 14px;
+}
+
+.mc-sheet-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 24px 100px;
+}
+
+.mc-var-btn {
+    border: 1px solid rgba(19, 46, 24, 0.15);
+    background: transparent;
+    padding: 16px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mc-var-btn.active {
+    border-color: var(--mc-terra);
+    background: rgba(212, 175, 55, 0.05);
+    /* Gold tint */
+}
+
+.mc-add-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--mc-paper);
+    padding: 20px 24px 34px;
+    border-top: 1px solid rgba(19, 46, 24, 0.08);
+    display: flex;
+    gap: 16px;
+}
+
+.mc-qty-ctrl {
+    display: flex;
+    align-items: center;
+    background: var(--mc-cream);
+    border-radius: 4px;
+    border: 1px solid rgba(19, 46, 24, 0.1);
+}
+
+.mc-qty-btn {
+    width: 44px;
+    height: 48px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: var(--mc-ink);
+}
+
+.mc-qty-num {
+    min-width: 30px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.mc-add-submit {
+    flex: 1;
+    background: var(--mc-terra);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+}
+
+@media (max-width: 700px) {
+    .mc-hero-title {
+        font-size: 2.8rem;
+    }
+
+    .mc-sec-title {
+        font-size: 2rem;
+    }
+
+    .mc-item {
+        grid-template-columns: 80px 1fr auto;
+        gap: 14px;
+        padding: 20px 0;
+    }
+
+    .mc-it-img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .mc-it-name {
+        font-size: 1.15rem;
+    }
+
+    .mc-it-price {
+        font-size: 1.1rem;
+    }
+}

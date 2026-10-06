@@ -130,6 +130,11 @@ export default function AdminSettings() {
                         ⚡ Fastbite (Burger / Fast-food)
                         <span style={{ fontSize: 11, color: local.template === 'fastbite' ? '#9a97a3' : '#666', fontWeight: 400 }}>Dark mode, style fast-food & burgers</span>
                     </button>
+                    <button onClick={() => update('template', 'borcelle-marocain')}
+                        style={{ padding: '12px 20px', borderRadius: 10, border: local.template === 'borcelle-marocain' ? '2px solid var(--gold)' : '1px solid #ddd', cursor: 'pointer', background: local.template === 'borcelle-marocain' ? '#fdf8f0' : '#fff', fontWeight: 600, fontSize: 14, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                        🇲🇦 Marocain (Zellige)
+                        <span style={{ fontSize: 11, color: '#666', fontWeight: 400 }}>Menu élégant inspiré du Maroc</span>
+                    </button>
                 </div>
             </section>
 
@@ -214,6 +219,29 @@ export default function AdminSettings() {
                             { key: 'asiaDark', label: 'Header / Couleur foncée (logo, catégories actives)' },
                             { key: 'asiaBg', label: 'Fond général de l\'application' },
                             { key: 'asiaText', label: 'Couleur du texte principal' },
+                        ].map(({ key, label }) => (
+                            <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                                <input type="color" value={local[key] || '#000000'} onChange={e => update(key, e.target.value)}
+                                    style={{ width: 44, height: 44, borderRadius: 8, border: '1px solid #ddd', padding: 2, cursor: 'pointer' }} />
+                                <div>
+                                    <div style={{ fontSize: 13, fontWeight: 600, color: '#444' }}>{label}</div>
+                                    <div style={{ fontSize: 11, color: '#aaa', fontFamily: 'monospace' }}>{local[key] || ''}</div>
+                                </div>
+                            </div>
+                        ))}
+                    </section>
+                )}
+
+                {/* COLORS - Marocain Editorial (Only shown if marocain template selected) */}
+                {local.template === 'borcelle-marocain' && (
+                    <section style={{ background: '#f8faf9', borderRadius: 14, border: '2px solid #165b33', padding: 22, marginBottom: 24 }}>
+                        <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 4 }}>🇲🇦 Couleurs — Thème Marocain</h3>
+                        <p style={{ fontSize: 12, color: '#888', marginBottom: 16 }}>S'appliquent au thème Marocain (Zellige).</p>
+                        {[
+                            { key: 'mcTerra', label: 'Couleur Principale (Or / Zellige)' },
+                            { key: 'mcInk', label: 'Couleur du texte principal & Header' },
+                            { key: 'mcCream', label: 'Couleur de fond général (Beige/Crème)' },
+                            { key: 'mcPaper', label: 'Couleur des cartes / feuilles' },
                         ].map(({ key, label }) => (
                             <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
                                 <input type="color" value={local[key] || '#000000'} onChange={e => update(key, e.target.value)}
