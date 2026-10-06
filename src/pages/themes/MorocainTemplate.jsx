@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import './MorocainTemplate.css';
 import '@fontsource/amiri';
@@ -29,7 +29,7 @@ export default function MorocainTemplate() {
         }
     }, []);
 
-    // Mobile detection — update on resize
+    // Mobile detection â€” update on resize
     useEffect(() => {
         const handler = () => setIsMobile(window.innerWidth < 700);
         window.addEventListener('resize', handler);
@@ -81,7 +81,7 @@ export default function MorocainTemplate() {
 
     const handleAddToCart = () => {
         if (!selectedProduct) return;
-        if (!canAdd) { showToast('⚠️ Choisissez une taille d\'abord.'); return; }
+        if (!canAdd) { showToast('âš ï¸ Choisissez une taille d\'abord.'); return; }
         const cartItem = {
             ...selectedProduct,
             price: unitPrice,
@@ -89,14 +89,14 @@ export default function MorocainTemplate() {
             selectedExtras: selectedExtras.length > 0 ? [...selectedExtras] : undefined,
         };
         for (let i = 0; i < qty; i++) addToCart(cartItem);
-        showToast(`✓ ${qty}× ${selectedProduct.name} ajouté`);
+        showToast(`âœ“ ${qty}Ã— ${selectedProduct.name} ajoutÃ©`);
         setSelectedProduct(null);
     };
 
     const handleCheckout = () => {
         saveOrder('Commande Marocain');
         setCartOpen(false);
-        showToast('🎉 Commande validée !');
+        showToast('ðŸŽ‰ Commande validÃ©e !');
     };
 
     // Build category list from real menu
@@ -130,14 +130,14 @@ export default function MorocainTemplate() {
 
             {/* ========== HERO ========== */}
             <section className="mc-hero">
-                <div className="mc-circle mc-c1" />
-                <div className="mc-circle mc-c2" />
-                <div className="mc-circle mc-c3" />
-
-                <div className="mc-hero-kicker">Carte · {new Date().getFullYear()}</div>
-                <h1 className="mc-hero-title">{namePart1}{namePart2 ? <><br /><em>{namePart2}</em></> : ''}</h1>
-                <p className="mc-hero-sub">{branding.tagline || 'Une cuisine d\'inspiration, préparée chaque jour avec des produits frais.'}</p>
-                <div className="mc-scroll-cue">Défiler</div>
+                <div className="mc-hero-media">
+                    <img src={branding.heroImage || 'https://images.unsplash.com/photo-1541363654512-5cb0ef7df590?auto=format&fit=crop&w=600&q=80'} alt="Hero" loading="lazy" />
+                </div>
+                <div className="mc-hero-content">
+                    <div className="mc-hero-subtitle">{branding.subtitle || 'Restaurant'}</div>
+                    <h1 className="mc-hero-title">{branding.name || 'Le Riad'}</h1>
+                    <p className="mc-hero-desc">{branding.tagline || 'Une évasion culinaire marocaine authentique.'}</p>
+                </div>
             </section>
 
             {/* ========== STICKY CATEGORY TABS ========== */}
@@ -185,7 +185,7 @@ export default function MorocainTemplate() {
                                                 {(d.badge || d.extras?.length) && (
                                                     <div className="mc-it-tags">
                                                         {d.badge && <span className={`mc-it-tag ${isNew ? 'new' : ''}`}>{d.badge.text}</span>}
-                                                        {d.extras?.length > 0 && <span className="mc-it-tag">+ Suppléments</span>}
+                                                        {d.extras?.length > 0 && <span className="mc-it-tag">+ SupplÃ©ments</span>}
                                                         {d.hasVariants && <span className="mc-it-tag">Plusieurs tailles</span>}
                                                     </div>
                                                 )}
@@ -198,7 +198,7 @@ export default function MorocainTemplate() {
                         </div>
                     );
                 })}
-                {filteredMenu.length === 0 && <div className="mc-empty">😕 Aucun plat trouvé pour cette catégorie.</div>}
+                {filteredMenu.length === 0 && <div className="mc-empty">ðŸ˜• Aucun plat trouvÃ© pour cette catÃ©gorie.</div>}
             </main>
 
             {/* ========== FOOTER ========== */}
@@ -207,21 +207,21 @@ export default function MorocainTemplate() {
                     {namePart1}<span>{namePart2 ? ` ${namePart2}` : ''}</span>
                 </div>
                 <p>{branding.tagline || ''}</p>
-                <p style={{ marginTop: 8 }}>Ouvert tous les jours · 12h — 23h</p>
+                <p style={{ marginTop: 8 }}>Ouvert tous les jours Â· 12h â€” 23h</p>
             </footer>
 
             {/* ========== PRODUCT OVERLAY ========== */}
             <div className={`mc-overlay ${selectedProduct ? 'open' : ''}`} onClick={(e) => { if (e.target === e.currentTarget) setSelectedProduct(null); }}>
                 <div className="mc-sheet">
-                    <button className="mc-close" onClick={() => setSelectedProduct(null)}>✕</button>
+                    <button className="mc-close" onClick={() => setSelectedProduct(null)}>âœ•</button>
                     {selectedProduct && (
                         <>
                             <img className="mc-sheet-img" src={selectedProduct.images?.[0] || `https://placehold.co/480x230/f3ead9/8a7f70?text=${encodeURIComponent(selectedProduct.name)}`} alt={selectedProduct.name} />
                             <h2 className="mc-sheet-name">{selectedProduct.name}</h2>
                             <div className="mc-sheet-meta">
                                 <span>{selectedProduct.category}</span>
-                                <span>·</span>
-                                <span>♥ <b>{Math.floor(Math.random() * 300 + 80)}</b></span>
+                                <span>Â·</span>
+                                <span>â™¥ <b>{Math.floor(Math.random() * 300 + 80)}</b></span>
                             </div>
                             <p className="mc-sheet-desc">{selectedProduct.desc}</p>
 
@@ -241,7 +241,7 @@ export default function MorocainTemplate() {
                             {/* Extras */}
                             {hasExtras && (
                                 <>
-                                    <span className="mc-extras-title">Suppléments</span>
+                                    <span className="mc-extras-title">SupplÃ©ments</span>
                                     {selectedProduct.extras.filter(ex => ex.isAvailable !== false).map((ex, i) => {
                                         const checked = !!selectedExtras.find(e => e.name === ex.name);
                                         return (
@@ -256,12 +256,12 @@ export default function MorocainTemplate() {
 
                             <div className="mc-sheet-foot">
                                 <div className="mc-qty">
-                                    <button onClick={() => setQty(q => Math.max(1, q - 1))}>−</button>
+                                    <button onClick={() => setQty(q => Math.max(1, q - 1))}>âˆ’</button>
                                     <span>{qty}</span>
                                     <button onClick={() => setQty(q => q + 1)}>+</button>
                                 </div>
                                 <button className="mc-add-btn" onClick={handleAddToCart} disabled={!canAdd}>
-                                    {canAdd ? `Ajouter · ${unitPrice * qty} DH` : 'Choisir une taille'}
+                                    {canAdd ? `Ajouter Â· ${unitPrice * qty} DH` : 'Choisir une taille'}
                                 </button>
                             </div>
                         </>
@@ -276,7 +276,7 @@ export default function MorocainTemplate() {
                         <div className="mc-cart-count">{cartCount}</div>
                         <span className="mc-cart-bar-label">{cartCount === 0 ? 'Panier vide' : 'Voir le Panier'}</span>
                     </div>
-                    <span className="mc-cart-total">{cartTotal > 0 ? `${cartTotal} DH` : '—'}</span>
+                    <span className="mc-cart-total">{cartTotal > 0 ? `${cartTotal} DH` : 'â€”'}</span>
                 </div>
             )}
 
@@ -285,10 +285,10 @@ export default function MorocainTemplate() {
                 <div className="mc-cart-panel">
                     <div className="mc-cart-head">
                         <h2>Panier</h2>
-                        <button className="mc-cart-close" onClick={() => setCartOpen(false)}>✕</button>
+                        <button className="mc-cart-close" onClick={() => setCartOpen(false)}>âœ•</button>
                     </div>
                     {cart.length === 0 ? (
-                        <p style={{ color: 'var(--mc-muted)', textAlign: 'center', padding: '30px 0', fontWeight: 300 }}>Votre panier est vide 🛒</p>
+                        <p style={{ color: 'var(--mc-muted)', textAlign: 'center', padding: '30px 0', fontWeight: 300 }}>Votre panier est vide ðŸ›’</p>
                     ) : (
                         <>
                             {cart.map(item => (
@@ -299,7 +299,7 @@ export default function MorocainTemplate() {
                                         <div className="mc-cart-item-price">{item.price} DH</div>
                                     </div>
                                     <div className="mc-cart-controls">
-                                        <button onClick={() => updateQuantity(item.cartId, -1)}>−</button>
+                                        <button onClick={() => updateQuantity(item.cartId, -1)}>âˆ’</button>
                                         <span>{item.quantity}</span>
                                         <button onClick={() => updateQuantity(item.cartId, 1)}>+</button>
                                     </div>
