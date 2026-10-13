@@ -636,6 +636,26 @@
     pointer-events: auto;
 }
 
+/* ---- Cart overlay (distinct class to avoid conflict with product overlay) ---- */
+.fb-cart-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 110;
+    background: rgba(10, 10, 12, .7);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: .35s;
+}
+
+.fb-cart-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
 .fb-sheet {
     background: var(--fb-dark-2);
     width: 100%;

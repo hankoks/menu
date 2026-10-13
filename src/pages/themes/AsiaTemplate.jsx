@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import './AsiaTemplate.css';
 
@@ -30,12 +30,24 @@ export default function AsiaTemplate() {
     }, []);
 
     // Extract categories unique
-    const catList = ['all', ...new Set(menu.map(i => i.category))];
+    // Bug fix: filter out undefined/null categories
+    const catList = ['all', ...new Set(menu.map(i => i.category).filter(Boolean))];
+
+    // Bug fix: stable random likes – computed once per menu load, not on every render
+    const dishLikes = useMemo(() => {
+        const map = {};
+        menu.forEach(d => { map[d.id] = Math.floor(Math.random() * 300) + 50; });
+        return map;
+    }, [menu]);
 
     // Build the grid
     let filteredList = menu.filter(d => currentCat === 'all' || d.category === currentCat);
     if (searchQuery) {
-        filteredList = filteredList.filter(d => d.name.toLowerCase().includes(searchQuery.toLowerCase()) || d.desc.toLowerCase().includes(searchQuery.toLowerCase()));
+        // Bug fix: null-safe desc access
+        filteredList = filteredList.filter(d =>
+            d.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (d.desc || '').toLowerCase().includes(searchQuery.toLowerCase())
+        );
     }
 
     // In our menu schema, `price` is there, `badge` might have "Nouveau" etc.
@@ -62,7 +74,8 @@ export default function AsiaTemplate() {
     const hasVariants = selectedProduct?.hasVariants && selectedProduct?.variants?.length > 0;
     const hasExtras = selectedProduct?.extras?.length > 0;
     const basePrice = hasVariants
-        ? (selectedVariant ? selectedVariant.price : Math.min(...selectedProduct.variants.map(v => v.price)))
+        // Bug fix: guard against empty variants array
+        ? (selectedVariant ? selectedVariant.price : Math.min(...(selectedProduct?.variants?.map(v => v.price) || [0])))
         : (selectedProduct?.price || 0);
     const extrasPrice = selectedExtras.reduce((s, ex) => s + Number(ex.price), 0);
     const unitPrice = basePrice + extrasPrice;
@@ -160,7 +173,7 @@ export default function AsiaTemplate() {
                                         <div className="asia-dish-name">{d.name}</div>
                                         <div className="asia-dish-desc">{d.desc}</div>
                                         <div className="asia-dish-foot">
-                                            <span className="asia-likes"><b>♥</b> {Math.floor(Math.random() * 300) + 50}</span>
+                                            <span className="asia-likes"><b>♥</b> {dishLikes[d.id] || 99}</span>
                                             <span className="asia-arrow">→</span>
                                         </div>
                                     </div>
@@ -172,7 +185,7 @@ export default function AsiaTemplate() {
                 </div>
 
                 {/* ===== PRODUCT SCREEN ===== */}
-                <div className={`asia-screen ${selectedProduct ? 'open' : ''}`}>
+                <div className={`asia-screen ${selectedProduct ? 'open' : ''}`} style={{ overflowY: 'auto' }}>
                     {selectedProduct && (
                         <>
                             <div className="asia-p-top">

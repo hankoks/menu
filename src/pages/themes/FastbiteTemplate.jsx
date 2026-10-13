@@ -27,7 +27,8 @@ export default function FastbiteTemplate() {
     }, []);
 
     // Filter categories
-    const catList = ['all', ...new Set(menu.map(i => i.category))];
+    // Bug fix: filter out undefined/null categories
+    const catList = ['all', ...new Set(menu.map(i => i.category).filter(Boolean))];
     const filteredList = menu.filter(d => currentCat === 'all' || d.category === currentCat);
 
     // Identify featured items for the top scrolling "Combo" showcase (e.g. ones with red badges or "Nouveau")
@@ -51,7 +52,8 @@ export default function FastbiteTemplate() {
     const hasVariants = selectedProduct?.hasVariants && selectedProduct?.variants?.length > 0;
     const hasExtras = selectedProduct?.extras?.length > 0;
     const basePrice = hasVariants
-        ? (selectedVariant ? selectedVariant.price : Math.min(...selectedProduct.variants.map(v => v.price)))
+        // Bug fix: null-safe guard for empty variants
+        ? (selectedVariant ? selectedVariant.price : Math.min(...(selectedProduct?.variants?.map(v => v.price) || [0])))
         : (selectedProduct?.price || 0);
     const extrasPrice = selectedExtras.reduce((s, ex) => s + Number(ex.price), 0);
     const unitPrice = basePrice + extrasPrice;
@@ -143,7 +145,7 @@ export default function FastbiteTemplate() {
             <nav className="fb-cats">
                 {catList.map(c => (
                     <button key={c} className={`fb-cat ${currentCat === c ? 'active' : ''}`} onClick={() => setCurrentCat(c)}>
-                        <span className="ic">{c === 'all' ? '🔥' : (c.toLowerCase().includes('burger') ? '🍔' : '🍽️')}</span>
+                        <span className="ic">{c === 'all' ? '🔥' : ((c || '').toLowerCase().includes('burger') ? '🍔' : '🍽️')}</span>
                         {c === 'all' ? 'Tout' : c}
                     </button>
                 ))}
@@ -209,7 +211,9 @@ export default function FastbiteTemplate() {
                                 <p className="fb-p-desc">{d.desc}</p>
                                 <div className="fb-p-foot">
                                     <span className="fb-p-price">
-                                        {d.hasVariants ? `${Math.min(...d.variants.map(v => v.price))} DH` : `${d.price} DH`}
+                                        {d.hasVariants && d.variants?.length > 0
+                                            ? `${Math.min(...(d.variants.map(v => v.price) || [0]))} DH`
+                                            : `${d.price} DH`}
                                     </span>
                                 </div>
                             </div>
@@ -300,8 +304,8 @@ export default function FastbiteTemplate() {
                 )}
             </div>
 
-            {/* Cart Overlay */}
-            <div className={`fb-overlay ${cartOpen ? 'open' : ''}`} onClick={(e) => { if (e.target === e.currentTarget) setCartOpen(false); }}>
+            {/* Cart Overlay — uses distinct class to avoid conflict with product overlay */}
+            <div className={`fb-cart-overlay ${cartOpen ? 'open' : ''}`} onClick={(e) => { if (e.target === e.currentTarget) setCartOpen(false); }}>
                 <div className="fb-cart-panel" onClick={e => e.stopPropagation()}>
                     <div className="fb-cart-head">
                         <h2>PANIER</h2>

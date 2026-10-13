@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import './BorcelleTemplate.css';
 
@@ -71,6 +71,7 @@ export default function BorcelleTemplate() {
 
     const hasVariants = selectedProduct?.hasVariants && selectedProduct?.variants?.length > 0;
     const hasExtras = selectedProduct?.extras?.length > 0;
+    // Bug fix: guard against empty variants array for Math.min
     const basePrice = hasVariants
         ? (selectedVariant ? selectedVariant.price : Math.min(...(selectedProduct?.variants?.map(v => v.price) || [0])))
         : (selectedProduct?.price || 0);
@@ -108,6 +109,13 @@ export default function BorcelleTemplate() {
     const categoriesInView = currentCat === 'all'
         ? [...new Set(menu.map(i => i.category).filter(Boolean))]
         : [currentCat];
+
+    // Stable random likes per item – not re-generated on every render
+    const dishLikes = useMemo(() => {
+        const map = {};
+        menu.forEach(d => { map[d.id] = Math.floor(Math.random() * 300) + 80; });
+        return map;
+    }, [menu]);
 
     // Branding CSS vars
     const cssVars = {
@@ -220,7 +228,7 @@ export default function BorcelleTemplate() {
                             <div className="bc-sheet-meta">
                                 <span>{selectedProduct.category}</span>
                                 <span>·</span>
-                                <span>♥ <b>{Math.floor(Math.random() * 300 + 80)}</b></span>
+                                <span>♥ <b>{dishLikes[selectedProduct?.id] || 128}</b></span>
                             </div>
                             <p className="bc-sheet-desc">{selectedProduct.desc}</p>
 
@@ -268,8 +276,8 @@ export default function BorcelleTemplate() {
                 </div>
             </div>
 
-            {/* ========== CART BAR (fixed) ========== */}
-            {!cartOpen && (
+            {/* ========== CART BAR (fixed) — hidden when empty ========== */}
+            {!cartOpen && cartCount > 0 && (
                 <div className="bc-cart-bar" onClick={() => setCartOpen(true)}>
                     <div className="bc-cart-bar-left">
                         <div className="bc-cart-count">{cartCount}</div>
