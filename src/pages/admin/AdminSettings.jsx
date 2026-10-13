@@ -376,6 +376,41 @@ export default function AdminSettings() {
                 </div>
             </div>
 
+            {/* GOOGLE MAPS REVIEW */}
+            <section style={{ background: '#fff', borderRadius: 14, border: '1px solid #eee', padding: 22, marginTop: 24 }}>
+                <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 6, display: 'flex', alignItems: 'center', gap: 8 }}>
+                    📍 Avis Google Maps
+                </h3>
+                <p style={{ fontSize: 12, color: '#888', marginBottom: 16, lineHeight: 1.6 }}>
+                    Après chaque commande validée, le client verra une popup lui demandant de vous laisser une note ⭐.<br />
+                    Collez ici le lien direct vers votre page Google Maps.
+                </p>
+                <Field label="Lien Google Maps (URL)" hint="Ex: https://g.page/r/xxxxxxxx/review">
+                    <input
+                        style={inputStyle}
+                        type="url"
+                        placeholder="https://g.page/r/xxxxxxxx/review"
+                        value={local.googleMapsUrl || ''}
+                        onChange={e => update('googleMapsUrl', e.target.value)}
+                    />
+                </Field>
+                {local.googleMapsUrl && (
+                    <a
+                        href={local.googleMapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#4285f4', fontWeight: 600, textDecoration: 'none', marginTop: 4 }}
+                    >
+                        🔗 Vérifier le lien →
+                    </a>
+                )}
+                {!local.googleMapsUrl && (
+                    <p style={{ fontSize: 12, color: '#f59e0b', background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 8, padding: '8px 12px', marginTop: 8 }}>
+                        ⚠️ Sans ce lien, la popup ne s'affichera pas après les commandes.
+                    </p>
+                )}
+            </section>
+
             {/* PREVIEW + SAVE */}
             <div style={{ marginTop: 28, display: 'flex', justifyContent: 'flex-end', gap: 12 }}>
                 <button onClick={() => setLocal({ ...branding })} style={{ padding: '12px 24px', borderRadius: 10, border: '1px solid #ddd', background: '#fff', cursor: 'pointer', fontWeight: 600 }}>

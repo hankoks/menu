@@ -36,6 +36,8 @@ const DEFAULT_BRANDING = {
   fbYellow: '#ffc91f',
   fbDark: '#17161a',
   fbCard: '#232227',
+  // Review prompt
+  googleMapsUrl: '',
 };
 
 export const AppProvider = ({ children }) => {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
+import ReviewPrompt from '../../components/ReviewPrompt';
 import './AsiaTemplate.css';
 
 export default function AsiaTemplate() {
@@ -17,6 +18,7 @@ export default function AsiaTemplate() {
     const [selectedExtras, setSelectedExtras] = useState([]);
     const [isHearted, setIsHearted] = useState(false);
     const [cartOpen, setCartOpen] = useState(false);
+    const [showReview, setShowReview] = useState(false);
 
     useEffect(() => {
         // Load fonts if they don't exist
@@ -105,6 +107,8 @@ export default function AsiaTemplate() {
         saveOrder("Commande depuis Asia App");
         setCartOpen(false);
         showToast("🎉 Commande validée et envoyée en cuisine !");
+        // Show Google Maps review prompt if URL is configured
+        if (branding.googleMapsUrl) setShowReview(true);
     };
 
     return (
@@ -318,6 +322,14 @@ export default function AsiaTemplate() {
                     </div>
                 )}
             </div>
+
+            {showReview && (
+                <ReviewPrompt
+                    restaurantName={branding.name}
+                    googleMapsUrl={branding.googleMapsUrl}
+                    onClose={() => setShowReview(false)}
+                />
+            )}
         </div>
     );
 }

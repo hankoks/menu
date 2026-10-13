@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
+import ReviewPrompt from '../../components/ReviewPrompt';
 import './BorcelleTemplate.css';
 
 export default function BorcelleTemplate() {
@@ -14,6 +15,7 @@ export default function BorcelleTemplate() {
     const [toastMsg, setToastMsg] = useState('');
     const [isToastVisible, setIsToastVisible] = useState(false);
     const [isMobile, setIsMobile] = useState(() => window.innerWidth < 700);
+    const [showReview, setShowReview] = useState(false);
 
     const itemsRef = useRef([]);
 
@@ -97,6 +99,7 @@ export default function BorcelleTemplate() {
         saveOrder('Commande Borcelle');
         setCartOpen(false);
         showToast('🎉 Commande validée !');
+        if (branding.googleMapsUrl) setShowReview(true);
     };
 
     // Build category list from real menu
@@ -326,6 +329,14 @@ export default function BorcelleTemplate() {
 
             {/* ========== TOAST ========== */}
             <div className={`bc-toast ${isToastVisible ? 'show' : ''}`}>{toastMsg}</div>
+
+            {showReview && (
+                <ReviewPrompt
+                    restaurantName={branding.name}
+                    googleMapsUrl={branding.googleMapsUrl}
+                    onClose={() => setShowReview(false)}
+                />
+            )}
         </div>
     );
 }
