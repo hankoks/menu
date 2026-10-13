@@ -157,17 +157,19 @@ export default function AsiaTemplate() {
                 <div className="asia-scroll">
                     <div className="asia-grid">
                         {filteredList.map((d, i) => {
-                            const isNew = d.badge?.text === 'Nouveau';
-                            const img = d.images?.[0] || 'https://via.placeholder.com/150';
+                            const img = d.images?.[0] || null;
                             return (
                                 <div key={d.id} className="asia-dish" style={{ animationDelay: `${i * 0.05}s` }} onClick={() => {
                                     setSelectedProduct(d); setQty(1); setIsHearted(false);
                                     setSelectedVariant(null); setSelectedExtras([]);
                                 }}>
                                     <div className="asia-dish-img">
-                                        {(isNew || d.badge) && <span className={`asia-status ${isNew ? 'new' : ''}`}>{d.badge.text}</span>}
+                                        {d.badge?.text && <span className={`asia-status ${d.badge.text === 'Nouveau' ? 'new' : ''}`}>{d.badge.text}</span>}
                                         <span className="asia-dish-price">{d.price} DH</span>
-                                        <img src={img} alt={d.name} loading="lazy" />
+                                        {img
+                                            ? <img src={img} alt={d.name} loading="lazy" />
+                                            : <div style={{ width: '100%', height: '105px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem' }}>{d.icon || '🍲'}</div>
+                                        }
                                     </div>
                                     <div className="asia-dish-body">
                                         <div className="asia-dish-name">{d.name}</div>
@@ -195,12 +197,15 @@ export default function AsiaTemplate() {
                                 </button>
                             </div>
                             <div className="asia-p-img">
-                                <img src={selectedProduct.images?.[0]} alt={selectedProduct.name} />
+                                {selectedProduct.images?.[0]
+                                    ? <img src={selectedProduct.images[0]} alt={selectedProduct.name} />
+                                    : <div style={{ width: '100%', height: '270px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '5rem', background: 'var(--asia-primary)', opacity: 0.15, borderRadius: 22 }}>{selectedProduct.icon || '🍲'}</div>
+                                }
                             </div>
                             <h1 className="asia-p-name">{selectedProduct.name}</h1>
                             <div className="asia-p-stats">
                                 <span>Plat</span><span className="cal">{selectedProduct.category}</span>
-                                <span className="lk">♥ 428</span>
+                                <span className="lk">♥ {dishLikes[selectedProduct.id] || 99}</span>
                             </div>
                             <p className="asia-p-desc">{selectedProduct.desc}</p>
 
@@ -267,7 +272,10 @@ export default function AsiaTemplate() {
                             ) : (
                                 cart.map(item => (
                                     <div key={item.cartId} className="asia-cart-item">
-                                        <img src={item.images?.[0] || 'https://via.placeholder.com/60'} className="asia-cart-item-img" alt="" />
+                                        {item.images?.[0]
+                                            ? <img src={item.images[0]} className="asia-cart-item-img" alt="" />
+                                            : <div className="asia-cart-item-img" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem', background: '#f0e9d6', borderRadius: 12 }}>{item.icon || '🍲'}</div>
+                                        }
                                         <div className="asia-cart-item-info">
                                             <div className="asia-cart-item-name">{item.name}</div>
                                             <div className="asia-cart-item-price">{item.price} DH</div>
